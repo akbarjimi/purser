@@ -1,154 +1,234 @@
-# Laravel Excel Pipeline
+# Laravel Excel Importer
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/akbarjimi/laravel-excel-pipeline.svg?style=flat-square)](https://packagist.org/packages/akbarjimi/laravel-excel-pipeline)
-[![Tests](https://img.shields.io/github/actions/workflow/status/akbarjimi/laravel-excel-pipeline/tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/akbarjimi/laravel-excel-pipeline/actions)
-[![Total Downloads](https://img.shields.io/packagist/dt/akbarjimi/laravel-excel-pipeline.svg?style=flat-square)](https://packagist.org/packages/akbarjimi/laravel-excel-pipeline)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/akbarjimi/laravel-excel-importer.svg?style=flat-square)](https://packagist.org/packages/akbarjimi/laravel-excel-importer)
+[![Tests](https://img.shields.io/github/actions/workflow/status/akbarjimi/excel-importer-pipeline/tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/akbarjimi/excel-importer-pipeline/actions)
+[![Total Downloads](https://img.shields.io/packagist/dt/akbarjimi/laravel-excel-importer.svg?style=flat-square)](https://packagist.org/packages/akbarjimi/laravel-excel-importer)
 
-Import large Excel files in Laravel without timeouts, memory exhaustion, or
-all-or-nothing failures. The import runs as a staged, event-driven pipeline on
-your queue workers — fully observable in Laravel Horizon.
+A distributed, event-driven, queue-based Excel import pipeline for Laravel.
+Pluggable reader drivers, per-row validation, per-row error recovery, and a
+handler you own.
 
-## Why this package?
+## Why this exists
 
-Importing a 100,000-row spreadsheet inside an HTTP request fails in predictable
-ways: the request times out, the worker runs out of memory, and a single
-malformed row can abort the entire import with no indication of what went
-wrong.
+Most Excel packages treat an import as one operation: read the file, hand you
+the rows, done. That works until one row fails validation halfway through a
+50,000-row file, or a chunk job dies and you have no idea which rows committed,
+or a reviewer asks for the audit trail of every rejected row.
 
-This package treats an import as a durable, multi-stage workflow:
-
-1. **Discovery** — the file's sheets are detected and persisted
-2. **Extraction** — each sheet's rows are extracted by a batch of queued jobs
-3. **Processing** — rows are validated and transformed in configurable chunks
-
-Each stage emits events, every batch is named and visible in Horizon, and
-invalid rows are recorded individually while the rest of the file continues.
+This package treats the import as a multi-stage pipeline. Every stage is a
+separate, retryable queued job. Every validation failure is recorded against the
+row that caused it. The pipeline completes whether or not individual rows are
+valid.
 
 ## Requirements
 
-- PHP 8.4+
-- Laravel 12.x
-- A queue driver that supports batches (Redis recommended)
+- PHP 8.1 or newer
+- Laravel 10, 11, or 12
+- One of:
+  - `maatwebsite/excel` (PhpSpreadsheet driver, default)
+  - `openspout/openspout` (streaming driver, lower memory)
+- A database queue connection for production use
 
 ## Installation
 
-Install via Composer:
-```bash
-composer require akbarjimi/laravel-excel-pipeline
+```shell
+    composer require akbarjimi/laravel-excel-importer
+    php artisan vendor:publish --tag=excel-importer
+    php artisan vendor:publish --tag=excel-importer-sheets
+    php artisan migrate
 ```
 
-Publish and run the migrations (the package uses Laravel's job batching, so
-the `job_batches` table is required):
+The first publish command installs `config/excel-importer.php`. The second
+installs `config/excel-importer-sheets.php`, where you map spreadsheet columns
+to your domain fields and declare validation rules per sheet.
 
-```bash
-php artisan vendor:publish --tag="excel-pipeline-migrations"
-php artisan queue:batches-table
-php artisan migrate
-```
-Optionally publish the config file:
+## Quickstart
 
-```bash
-php artisan vendor:publish --tag="excel-pipeline-config"
-```
-
-## Quick start
-
-Register an uploaded file and let the pipeline take over:
+Define a handler. It receives a lazy stream of validated rows and does whatever
+your application needs.
 
 ```php
-ExcelPipeline::import($request->file('spreadsheet'));
+    <?php
+
+    declare(strict_types=1);
+
+    namespace App\Imports;
+
+    use Akbarjimi\ExcelImporter\Contracts\ImportHandler;
+    use Akbarjimi\ExcelImporter\DTOs\ValidatedRow;
+    use App\Models\User;
+
+    final class UserImportHandler implements ImportHandler
+    {
+        public function handle(int $fileId, iterable $rows): void
+        {
+            foreach ($rows as $row) {
+                assert($row instanceof ValidatedRow);
+
+                User::updateOrCreate(
+                    ['email' => $row->data['email']],
+                    [
+                        'name' => $row->data['name'],
+                        'age' => $row->data['age'],
+                    ],
+                );
+            }
+        }
+    }
 ```
 
-Track progress by listening to pipeline events:
+Configure the sheet in `config/excel-importer-sheets.php`.
 
 ```php
-use Akbarjimi\ExcelPipeline\Events\AllRowsExtracted;
+    return [
+        'Users' => [
+            'mapping' => [
+                'name' => 'A',
+                'email' => 'B',
+                'age' => 'C',
+            ],
+            'validation' => [
+                'name' => 'required|string|max:255',
+                'email' => 'required|email',
+                'age' => 'required|integer|min:18',
+            ],
+        ],
+    ];
 
-Event::listen(AllRowsExtracted::class, function (AllRowsExtracted $event) {
-// all sheets extracted — processing stage begins
-});
 ```
 
-## Pipeline events
-
-| Event | Fired when |
-| --- | --- |
-| `ExcelFileRegistered` | A file has been registered for import |
-| `FileSheetsScanCompleted` | Sheet discovery has finished |
-| `SheetRowsExtracted` | A single sheet's rows have been extracted |
-| `AllRowsExtracted` | Every sheet in the file has been extracted |
-| `SheetProcessingCompleted` | A sheet's chunks have all been processed |
-
-## Handling invalid rows
-
-Rows that fail validation do not abort the import. Each failure is recorded
-with its row number and validation errors, and the file completes with
-partial-success semantics:
+Dispatch the import.
 
 ```php
-$file->rowErrors; // collection of per-row validation failures
+    use Akbarjimi\ExcelImporter\Services\ImportManager;
+    use App\Imports\UserImportHandler;
+
+    app(ImportManager::class)
+        ->import('uploads/users.xlsx', disk: 's3')
+        ->withHandler(UserImportHandler::class)
+        ->dispatch();
 ```
+
+The pipeline runs asynchronously. `excel:status {fileId}` shows progress.
+`excel:retry {fileId}` re-dispatches failed chunks. Failed rows are available
+through `ErrorReportService`.
+
+## How it works
+
+    ImportManager::import(path, disk)
+      |
+      +- PendingImport::dispatch()          creates ExcelFile, fires ExcelFileRegistered
+      |
+      +- HandleExcelFileRegistered          SheetDiscoveryService::discover()
+      |                                       fires FileSheetsScanCompleted
+      |
+      +- HandleFileSheetsScanCompleted      extracts rows via ExtractSheetRowsJob batch
+      |                                       fires AllRowsExtracted
+      |
+      +- HandleAllRowsExtracted             ChunkerService::createChunksForFile()
+      |                                       dispatches ProcessChunkJob batch
+      |                                       fires FileProcessingCompleted
+      |
+      +- InvokeImportHandler                resolves handler class from file meta
+                                            streams ValidatedRow to your handler
+
+Each stage is a queued job or listener. Each stage can fail and be retried
+without re-running the ones before it. Each status transition is validated
+against an enum state machine. There is no shared mutable state between stages.
+
+## Reader drivers
+
+The reading engine sits behind the `ExcelReaderDriver` contract. Two
+implementations ship:
+
+- `PhpSpreadsheetDriver` (default). Uses `maatwebsite/excel`. Loads the file
+  into memory. Fine for files up to a few tens of thousands of rows.
+- `OpenSpoutDriver`. Uses `openspout/openspout`. Streaming reader. Constant
+  memory regardless of file size.
+
+Select via `EXCEL_IMPORTER_DRIVER=openspout` or `excel-importer.driver`.
+If the corresponding package is not installed, the driver throws
+`MissingDriverDependencyException` at first use, naming the composer command
+to run.
+
+## Error recovery
+
+Validation failures do not abort the import. Each rejected row is stored in
+`excel_row_errors` with its field, type, code, and message. The chunk that
+contains it completes normally; the file completes when every chunk has been
+processed.
+
+Retrieve the failures:
+
+```php
+    use Akbarjimi\ExcelImporter\Services\ErrorReportService;
+
+    $service = app(ErrorReportService::class);
+
+    $paginated = $service->paginate($fileId);
+    $json      = $service->toJson($fileId);
+    $spreadsheetPath = $service->toSpreadsheet($fileId, disk: 'local');
+
+```
+
+`excel:retry {fileId}` resets failed chunks and re-dispatches them. Only files
+in `FAILED` status with at least one failed chunk are eligible.
 
 ## Configuration
 
-```php
-return [
-'chunk_size' => 500,          // rows per processing chunk
-'max_sheets' => 10,           // reject files exceeding this
-'hash_algo' => 'xxh128',      // row content hashing for idempotency
-'logging' => [
-'enabled' => true,
-'channels' => ['stack'],
-],
-];
-```
+The full config file lives at `config/excel-importer.php` after publishing.
+Selected keys:
 
-## Horizon integration
+| Key                 | Default       | Purpose                           |
+|---------------------|---------------|-----------------------------------|
+| `driver`            | `maatwebsite` | `maatwebsite` or `openspout`      |
+| `chunk_size`        | `1000`        | Rows per processing chunk         |
+| `insert_batch_size` | `100`         | Rows per database batch           |
+| `hash_algo`         | `sha256`      | Row content hashing for dedup     |
+| `max_sheets`        | `50`          | Reject files exceeding this       |
+| `strict_validation` | `false`       | Throw on missing validation rules |
+| `default_disk`      | `local`       | Storage disk for uploaded files   |
+| `queue`             | `default`     | Queue connection for jobs         |
 
-Every extraction and processing batch is named after its file
-(`excel-import:{id}`), so you can follow an individual import through
-Horizon's batch dashboard, inspect failed jobs, and retry them safely —
-all jobs are idempotent.
+Per-sheet mapping and validation rules live in `config/excel-importer-sheets.php`.
 
-## Custom reader drivers
+## Console commands
 
-The Excel reading engine sits behind a contract. Implement
-`ExcelReaderDriver` to plug in a different engine without touching the
-pipeline:
-
-```php
-interface ExcelReaderDriver
-{
-public function readRows(string $filePath, int $sheetIndex, callable $callback): void;
-}
-```
+| Command                 | Purpose                                              |
+|-------------------------|------------------------------------------------------|
+| `excel:status {fileId}` | File, sheet, chunk, row counts, error count          |
+| `excel:retry {fileId}`  | Reset failed chunks and re-dispatch                  |
+| `excel:benchmark`       | Generate a fixture, run the pipeline, report timings |
 
 ## Testing
 
-```bash
-composer test
-```
+    composer test
+
+## Documentation
+
+- [Getting started](docs/getting-started.md)
+- [Pipeline overview](docs/pipeline.md)
+- [Writing a handler](docs/handlers.md)
+- [Configuration reference](docs/configuration.md)
+- [Validation and transformation](docs/validation-and-transformation.md)
+- [Error recovery](docs/error-recovery.md)
+- [Reader drivers](docs/drivers.md)
+- [Console commands](docs/console-commands.md)
+- [Upgrading from v0.x](docs/upgrading.md)
 
 ## Changelog
 
-See [CHANGELOG](CHANGELOG.md) for recent changes.
+See [CHANGELOG](CHANGELOG.md).
 
 ## Contributing
 
-See [CONTRIBUTING](CONTRIBUTING.md) for details.
+See [CONTRIBUTING](CONTRIBUTING.md).
 
 ## Security
 
-Please report security vulnerabilities via the process in [SECURITY](SECURITY.md),
-not the public issue tracker.
-
-## Credits
-
-- [Akbar Jimi](https://github.com/akbarjimi)
+Report vulnerabilities through the process in [SECURITY](SECURITY.md), not the
+public issue tracker.
 
 ## License
 
-The MIT License (MIT). See [LICENSE](LICENSE.md) for details.
-
-
-Two things flagged inside the README as TODOs deserve emphasis: the quick-start API call and the event names must match your real code, and the configuration block reflects the config keys we've discussed (`hash_algo`, `logging.channels`) plus plausible ones (`chunk_size`, `max_sheets`) that you should reconcile with your actual config file. You'll also want CHANGELOG, CONTRIBUTING, SECURITY, and LICENSE files to exist before linking to them — Packagist and laravel-news reviewers do click those links.
+MIT. See [LICENSE](LICENSE.md).
