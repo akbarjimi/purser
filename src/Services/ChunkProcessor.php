@@ -11,7 +11,6 @@ use Akbarjimi\ExcelImporter\Repositories\ExcelRowChunkRepository;
 use Akbarjimi\ExcelImporter\Repositories\ExcelRowErrorRepository;
 use Akbarjimi\ExcelImporter\Repositories\ExcelRowRepository;
 use Akbarjimi\ExcelImporter\Repositories\ExcelSheetRepository;
-use Illuminate\Support\Facades\DB;
 use Throwable;
 
 final class ChunkProcessor
@@ -36,8 +35,17 @@ final class ChunkProcessor
 
         $sheet = $this->sheetRepository->getById($chunk->excel_sheet_id);
 
-        if ($sheet->excelFile->trashed()) {
+        if ($sheet === null) {
+            $this->rowChunkRepository->markAsFailed($chunkId, 'Sheet not found.');
+
+            return;
+        }
+
+        $excelFile = $sheet->excelFile;
+
+        if ($excelFile === null || $excelFile->trashed()) {
             $this->rowChunkRepository->markAsFailed($chunkId, 'File deleted.');
+
             return;
         }
 
@@ -51,7 +59,6 @@ final class ChunkProcessor
 
         $buffer = [];
 
-        DB::beginTransaction();
         try {
             foreach ($rows as $row) {
                 try {
@@ -82,14 +89,11 @@ final class ChunkProcessor
             }
 
             $this->rowChunkRepository->markAsCompleted($chunkId);
-            DB::commit();
 
             if ($this->rowChunkRepository->allChunksProcessedForSheet($sheet->id)) {
                 $this->sheetRepository->markAsCompleted($sheet->id);
             }
         } catch (Throwable $e) {
-            DB::rollBack();
-
             $chunk->refresh();
 
             if ($chunk->status !== ExcelChunkStatus::COMPLETED) {
