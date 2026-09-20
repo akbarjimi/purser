@@ -8,12 +8,15 @@ use Akbarjimi\ExcelImporter\Contracts\ExcelReaderDriver;
 use Akbarjimi\ExcelImporter\Contracts\RowHandler;
 use Akbarjimi\ExcelImporter\DTOs\RowData;
 use Akbarjimi\ExcelImporter\DTOs\SheetInfo;
+use Akbarjimi\ExcelImporter\Exceptions\MissingDriverDependencyException;
 use OpenSpout\Reader\XLSX\Reader;
 
 final class OpenSpoutDriver implements ExcelReaderDriver
 {
     public function readRows(string $filePath, int $sheetIndex, RowHandler $handler): void
     {
+        $this->ensureInstalled();
+
         if (! is_file($filePath)) {
             throw new \InvalidArgumentException("File not found: {$filePath}");
         }
@@ -45,6 +48,8 @@ final class OpenSpoutDriver implements ExcelReaderDriver
 
     public function listSheets(string $filePath): array
     {
+        $this->ensureInstalled();
+
         if (! is_file($filePath)) {
             throw new \InvalidArgumentException("File not found: {$filePath}");
         }
@@ -67,6 +72,13 @@ final class OpenSpoutDriver implements ExcelReaderDriver
             return $sheets;
         } finally {
             $reader->close();
+        }
+    }
+
+    private function ensureInstalled(): void
+    {
+        if (!class_exists(Reader::class)) {
+            throw MissingDriverDependencyException::for('openspout', 'openspout/openspout');
         }
     }
 
