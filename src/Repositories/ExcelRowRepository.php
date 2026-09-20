@@ -23,8 +23,8 @@ final class ExcelRowRepository
                 $sanitized = $chunk->map(fn ($row) => array_diff_key($row, ['id' => null]))->all();
                 DB::table('excel_rows')->upsert(
                     $sanitized,
-                    ['excel_sheet_id', 'content_hash', 'hash_algo'],
-                    ['content', 'status', 'row_index', 'updated_at'],
+                    ['excel_sheet_id', 'row_index'],
+                    ['content', 'content_hash', 'hash_algo', 'status', 'updated_at'],
                 );
             });
     }

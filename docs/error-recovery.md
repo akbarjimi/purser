@@ -98,31 +98,51 @@ installed it throws a `RuntimeException` naming the composer command.
 ## The retry workflow
 
 `excel:retry` only applies to files whose status is `ExcelFileStatus::FAILED`.
-It has three preconditions and will refuse to run if any is unmet:
+Preconditions:
 
 1. The file exists and is not soft-deleted.
 2. The file's status is `FAILED`.
-3. At least one chunk has status `ExcelChunkStatus::FAILED`.
 
-If all three hold, the command:
+### Chunk-level failure
+
+If at least one chunk has status `ExcelChunkStatus::FAILED`, the command:
 
 1. Marks the file `PROCESSING`.
 2. Resets every failed chunk to `PENDING` and clears its `error` column.
 3. Dispatches a `Bus::batch` of `ProcessChunkJob` for those chunks.
-4. On success: marks the file `COMPLETED`, fires `FileProcessingCompleted`.
+4. On success: fires `FileProcessingCompleted` (the handler marks `COMPLETED`).
 5. On failure: marks the file `FAILED` with a count of the still-failing chunks.
-
-   php artisan excel:retry 42
 
 Only failed chunks are re-run. Completed chunks are untouched. This is why
 `ProcessChunkJob` is idempotent: it checks the chunk status and returns
 immediately if already `COMPLETED`.
 
+### Handler-level failure
+
+If validation/chunking succeeded but `InvokeImportHandler` failed (timeout,
+exception, missing handler class), there are no failed chunks. The file is
+still `FAILED` because completion is deferred until the handler returns.
+
+In that case `excel:retry`:
+
+1. Marks the file `PROCESSING`.
+2. Re-dispatches `FileProcessingCompleted` so the handler runs again.
+
+   php artisan excel:retry 42
+
+## When the file becomes COMPLETED
+
+Chunk processing finishing is not the end of the import. The file stays
+`PROCESSING` until `InvokeImportHandler` finishes successfully, then
+transitions to `COMPLETED`. If the handler throws after retries are
+exhausted, the file becomes `FAILED` and is eligible for `excel:retry`.
+
 ## When retry will not help
 
 If the failure was caused by data that will not change — a malformed file, a
 missing transformer class, a validation rule that rejects every row — retrying
-will fail again. The `error` column on `excel_row_chunks` names the cause.
+will fail again. The `error` column on `excel_row_chunks` (or on `excel_files`
+for handler failures) names the cause.
 
 For validation failures, retry never applies: the chunk did not fail. The file
 completed with partial success. Inspect the errors, fix the source data in

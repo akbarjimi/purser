@@ -110,8 +110,8 @@ Dispatch the import.
 ```
 
 The pipeline runs asynchronously. `excel:status {fileId}` shows progress.
-`excel:retry {fileId}` re-dispatches failed chunks. Failed rows are available
-through `ErrorReportService`.
+`excel:retry {fileId}` re-dispatches failed chunks or re-runs a failed handler.
+Failed rows are available through `ErrorReportService`.
 
 ## How it works
 
@@ -128,13 +128,16 @@ through `ErrorReportService`.
       +- HandleAllRowsExtracted             ChunkerService::createChunksForFile()
       |                                       dispatches ProcessChunkJob batch
       |                                       fires FileProcessingCompleted
+      |                                       (file stays PROCESSING)
       |
-      +- InvokeImportHandler                resolves handler class from file meta
-                                            streams ValidatedRow to your handler
+      +- InvokeImportHandler                streams ValidatedRow to your handler
+                                            marks COMPLETED on success, FAILED on failure
 
 Each stage is a queued job or listener. Each stage can fail and be retried
-without re-running the ones before it. Each status transition is validated
-against an enum state machine. There is no shared mutable state between stages.
+without re-running the ones before it. The file is not marked `COMPLETED`
+until the import handler finishes successfully. Each status transition is
+validated against an enum state machine. There is no shared mutable state
+between stages.
 
 ## Reader drivers
 
@@ -155,8 +158,8 @@ to run.
 
 Validation failures do not abort the import. Each rejected row is stored in
 `excel_row_errors` with its field, type, code, and message. The chunk that
-contains it completes normally; the file completes when every chunk has been
-processed.
+contains it completes normally; the file completes after every chunk has been
+processed **and** the import handler finishes successfully.
 
 Retrieve the failures:
 
@@ -171,8 +174,9 @@ Retrieve the failures:
 
 ```
 
-`excel:retry {fileId}` resets failed chunks and re-dispatches them. Only files
-in `FAILED` status with at least one failed chunk are eligible.
+`excel:retry {fileId}` resets failed chunks and re-dispatches them, or
+re-invokes the import handler when chunks succeeded but the handler failed.
+Only files in `FAILED` status are eligible.
 
 ## Configuration
 
@@ -184,7 +188,7 @@ Selected keys:
 | `driver`            | `maatwebsite` | `maatwebsite` or `openspout`      |
 | `chunk_size`        | `1000`        | Rows per processing chunk         |
 | `insert_batch_size` | `100`         | Rows per database batch           |
-| `hash_algo`         | `sha256`      | Row content hashing for dedup     |
+| `hash_algo`         | `sha256`      | Row content hashing (diagnostics) |
 | `max_sheets`        | `50`          | Reject files exceeding this       |
 | `strict_validation` | `false`       | Throw on missing validation rules |
 | `default_disk`      | `local`       | Storage disk for uploaded files   |
@@ -197,7 +201,7 @@ Per-sheet mapping and validation rules live in `config/excel-importer-sheets.php
 | Command                 | Purpose                                              |
 |-------------------------|------------------------------------------------------|
 | `excel:status {fileId}` | File, sheet, chunk, row counts, error count          |
-| `excel:retry {fileId}`  | Reset failed chunks and re-dispatch                  |
+| `excel:retry {fileId}`  | Reset failed chunks or re-run the handler, then re-dispatch |
 | `excel:benchmark`       | Generate a fixture, run the pipeline, report timings |
 
 ## Testing
