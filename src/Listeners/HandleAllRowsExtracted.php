@@ -64,10 +64,9 @@ final class HandleAllRowsExtracted implements ShouldQueueAfterCommit
 
         if ($chunks->isEmpty()) {
             $this->fileRepository->markAsProcessing($fileId);
-            $this->fileRepository->markAsCompleted($fileId);
             FileProcessingCompleted::dispatch($fileId);
 
-            $this->importLog(LogLevel::INFO, "No chunks created for file {$fileId} – marked as completed.");
+            $this->importLog(LogLevel::INFO, "No chunks created for file {$fileId} – dispatching handler.");
 
             return;
         }
@@ -82,20 +81,19 @@ final class HandleAllRowsExtracted implements ShouldQueueAfterCommit
             ->allowFailures(true)
             ->then(static function (Batch $batch) use ($fileId) {
                 if ($batch->failedJobs > 0) {
+                    app(ExcelFileRepository::class)->markAsFailed(
+                        $fileId,
+                        "Processing failed: {$batch->failedJobs} chunks still failing.",
+                    );
+
                     return;
                 }
 
-                app(ExcelFileRepository::class)->markAsCompleted($fileId);
+                // COMPLETED is set by InvokeImportHandler after the domain write succeeds.
                 FileProcessingCompleted::dispatch($fileId);
-
-//                $this->importLog(LogLevel::INFO, "Processing batch completed for file {$fileId}.", [
-//                    'batch_id' => $batch->id,
-//                ]);
             })
             ->catch(static function (Batch $batch, Throwable $e) use ($fileId) {
                 app(ExcelFileRepository::class)->markAsFailed($fileId, $e->getMessage());
-
-//                $this->importLog(LogLevel::CRITICAL, "Processing batch failed for file {$fileId}. Error: {$e->getMessage()}");
             })
             ->finally(static function (Batch $batch) use ($fileId) {
                 app(ExcelFileRepository::class)->recordBatchId($fileId, $batch->id);

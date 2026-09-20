@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Akbarjimi\ExcelImporter\Contracts\ImportHandler;
 use Akbarjimi\ExcelImporter\Enums\ExcelChunkStatus;
 use Akbarjimi\ExcelImporter\Enums\ExcelFileStatus;
 use Akbarjimi\ExcelImporter\Enums\ExcelSheetStatus;
@@ -12,6 +13,21 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Bus;
 
 uses(RefreshDatabase::class);
+
+final class RetryTestHandler implements ImportHandler
+{
+    public static int $invocations = 0;
+
+    public function handle(int $fileId, iterable $rows): void
+    {
+        self::$invocations++;
+    }
+}
+
+beforeEach(function () {
+    RetryTestHandler::$invocations = 0;
+    app()->instance(RetryTestHandler::class, new RetryTestHandler);
+});
 
 it('fails when the file does not exist', function () {
     $this->artisan('excel:retry', ['fileId' => 999])
@@ -36,12 +52,18 @@ it('fails when the file is not in failed status', function () {
         ->assertFailed();
 });
 
-it('fails when there are no failed chunks', function () {
-    $file = ExcelFile::factory()->create(['status' => ExcelFileStatus::FAILED->value]);
+it('re-dispatches the import handler when there are no failed chunks', function () {
+    $file = ExcelFile::factory()->create([
+        'status' => ExcelFileStatus::FAILED->value,
+        'meta' => ['handler' => RetryTestHandler::class],
+    ]);
 
     $this->artisan('excel:retry', ['fileId' => $file->id])
-        ->expectsOutputToContain('no failed chunks')
-        ->assertFailed();
+        ->expectsOutputToContain('Re-dispatched import handler')
+        ->assertSuccessful();
+
+    expect($file->fresh()->status)->toBe(ExcelFileStatus::COMPLETED)
+        ->and(RetryTestHandler::$invocations)->toBe(1);
 });
 
 it('dispatches retry batch for failed chunks', function () {
@@ -54,7 +76,7 @@ it('dispatches retry batch for failed chunks', function () {
 
     ExcelRowChunk::factory()
         ->count(3)
-        ->sequence(fn($sequence) => [
+        ->sequence(fn ($sequence) => [
             'from_row_id' => $sequence->index * 10,
             'to_row_id' => $sequence->index * 10 + 9,
         ])
@@ -63,5 +85,5 @@ it('dispatches retry batch for failed chunks', function () {
 
     $this->artisan('excel:retry', ['fileId' => $file->id])->assertSuccessful();
 
-    Bus::assertBatched(fn($batch) => $batch->jobs->count() === 3);
+    Bus::assertBatched(fn ($batch) => $batch->jobs->count() === 3);
 });

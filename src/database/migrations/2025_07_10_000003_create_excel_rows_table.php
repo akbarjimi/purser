@@ -18,13 +18,15 @@ return new class extends Migration
             $table->unsignedInteger('row_index')->nullable();
             $table->json('content');
             $table->string('hash_algo')->default('md5');
-            $table->string('content_hash')->nullable();
+            $table->string('content_hash')->nullable()->index();
             $table->string('status', 32)->default(ExcelRowStatus::PENDING->value)->index();
             $table->unsignedInteger('chunk_index')->nullable()->index();
             $table->softDeletes();
             $table->timestamps();
 
-            $table->unique(['excel_sheet_id', 'content_hash', 'hash_algo'], 'sheet_content_hash_unique');
+            // Uniqueness is by sheet position so duplicate cell values remain distinct rows.
+            // content_hash stays as a non-unique index for change detection / diagnostics.
+            $table->unique(['excel_sheet_id', 'row_index'], 'sheet_row_index_unique');
         });
     }
 

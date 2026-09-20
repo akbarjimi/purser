@@ -21,23 +21,24 @@ final class RetryCommand extends Command
 {
     protected $signature = 'excel:retry {fileId : Excel file ID}';
 
-    protected $description = 'Re-dispatch failed chunks for an Excel import file.';
+    protected $description = 'Re-dispatch failed chunks, or re-invoke the import handler after a handler failure.';
 
     public function handle(
-        ExcelFileRepository     $fileRepository,
+        ExcelFileRepository $fileRepository,
         ExcelRowChunkRepository $chunkRepository,
-    ): int
-    {
-        $fileId = (int)$this->argument('fileId');
+    ): int {
+        $fileId = (int) $this->argument('fileId');
         $file = ExcelFile::withTrashed()->find($fileId);
 
         if ($file === null) {
             $this->error("File [{$fileId}] not found.");
+
             return self::FAILURE;
         }
 
         if ($file->trashed()) {
             $this->error("File [{$fileId}] is soft-deleted.");
+
             return self::FAILURE;
         }
 
@@ -53,18 +54,13 @@ final class RetryCommand extends Command
         }
 
         $failedChunkIds = ExcelRowChunk::query()
-            ->whereHas('excelSheet', fn($q) => $q->where('excel_file_id', $fileId))
+            ->whereHas('excelSheet', fn ($q) => $q->where('excel_file_id', $fileId))
             ->where('status', ExcelChunkStatus::FAILED->value)
             ->pluck('id')
             ->all();
 
         if ($failedChunkIds === []) {
-            $this->error(
-                "File [{$fileId}] has no failed chunks. "
-                . 'Retry is only supported for chunk-level failures. Re-import the file instead.'
-            );
-
-            return self::FAILURE;
+            return $this->retryHandler($fileRepository, $fileId);
         }
 
         $fileRepository->markAsProcessing($fileId);
@@ -74,7 +70,7 @@ final class RetryCommand extends Command
         }
 
         $jobs = array_map(
-            static fn(int $id): ProcessChunkJob => new ProcessChunkJob($id),
+            static fn (int $id): ProcessChunkJob => new ProcessChunkJob($id),
             $failedChunkIds,
         );
 
@@ -92,7 +88,7 @@ final class RetryCommand extends Command
                     return;
                 }
 
-                app(ExcelFileRepository::class)->markAsCompleted($fileId);
+                // COMPLETED is set by InvokeImportHandler after the domain write succeeds.
                 FileProcessingCompleted::dispatch($fileId);
             })
             ->catch(static function (Batch $batch, Throwable $e) use ($fileId): void {
@@ -107,6 +103,19 @@ final class RetryCommand extends Command
             'Reset %d chunks. Dispatched %d retry jobs for file %d.',
             count($failedChunkIds),
             count($jobs),
+            $fileId,
+        ));
+
+        return self::SUCCESS;
+    }
+
+    private function retryHandler(ExcelFileRepository $fileRepository, int $fileId): int
+    {
+        $fileRepository->markAsProcessing($fileId);
+        FileProcessingCompleted::dispatch($fileId);
+
+        $this->info(sprintf(
+            'No failed chunks. Re-dispatched import handler for file %d.',
             $fileId,
         ));
 

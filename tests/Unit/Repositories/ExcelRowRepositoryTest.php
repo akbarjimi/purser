@@ -32,6 +32,7 @@ describe('ExcelRowRepository', function () {
         $rows = [
             [
                 'excel_sheet_id' => $this->sheet->id,
+                'row_index' => 0,
                 'content' => json_encode(['name' => 'John']),
                 'hash_algo' => 'sha256',
                 'content_hash' => hash('sha256', json_encode(['name' => 'John'])),
@@ -40,6 +41,7 @@ describe('ExcelRowRepository', function () {
             ],
             [
                 'excel_sheet_id' => $this->sheet->id,
+                'row_index' => 1,
                 'content' => json_encode(['name' => 'Jane']),
                 'hash_algo' => 'sha256',
                 'content_hash' => hash('sha256', json_encode(['name' => 'Jane'])),
@@ -55,6 +57,35 @@ describe('ExcelRowRepository', function () {
             'excel_sheet_id' => $this->sheet->id,
             'content' => json_encode(['name' => 'John']),
         ]);
+    });
+
+    it('keeps duplicate content as separate rows when row_index differs', function () {
+        $now = now();
+        $payload = json_encode(['name' => 'Same', 'email' => 'same@example.com']);
+        $hash = hash('sha256', $payload);
+
+        $this->repo->bulkUpsert([
+            [
+                'excel_sheet_id' => $this->sheet->id,
+                'row_index' => 1,
+                'content' => $payload,
+                'hash_algo' => 'sha256',
+                'content_hash' => $hash,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'excel_sheet_id' => $this->sheet->id,
+                'row_index' => 2,
+                'content' => $payload,
+                'hash_algo' => 'sha256',
+                'content_hash' => $hash,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+        ]);
+
+        $this->assertDatabaseCount('excel_rows', 2);
     });
 
     it('does nothing on empty bulk insert', function () {
@@ -109,23 +140,29 @@ describe('ExcelRowRepository', function () {
     });
 
     it('gets validated rows for a file as LazyCollection of ValidatedRow', function () {
-        // Create some validated rows.
-        ExcelRow::factory()->for($this->sheet)->count(3)->create([
+        ExcelRow::factory()->for($this->sheet)->count(3)->sequence(
+            ['row_index' => 5],
+            ['row_index' => 6],
+            ['row_index' => 7],
+        )->create([
             'status' => ExcelRowStatus::VALIDATED,
-            'row_index' => 5,
         ]);
-        // Create some non-validated rows that should be ignored.
-        ExcelRow::factory()->for($this->sheet)->count(2)->create([
+        ExcelRow::factory()->for($this->sheet)->count(2)->sequence(
+            ['row_index' => 8],
+            ['row_index' => 9],
+        )->create([
             'status' => ExcelRowStatus::PENDING,
         ]);
 
         $rows = $this->repo->getValidatedRowsForFile($this->file->id);
 
         expect($rows)->toHaveCount(3);
+        $indexes = [];
         foreach ($rows as $row) {
             expect($row)->toBeInstanceOf(ValidatedRow::class);
-            expect($row->rowIndex)->toBe(5);
+            $indexes[] = $row->rowIndex;
         }
+        expect($indexes)->toBe([5, 6, 7]);
     });
 
 

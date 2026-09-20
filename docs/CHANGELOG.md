@@ -5,6 +5,20 @@ All notable changes to `laravel-excel-importer` are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+- The file is no longer marked `COMPLETED` before `InvokeImportHandler` runs.
+  Prior behaviour: a handler exception left the file `COMPLETED` with partial
+  domain writes and no way to `excel:retry`. Completion now happens only after
+  the handler returns; handler failures mark the file `FAILED`.
+- `excel:retry` re-dispatches the import handler when the file is `FAILED` but
+  no chunks failed (handler-only failure).
+- Row uniqueness is `(excel_sheet_id, row_index)` instead of
+  `(excel_sheet_id, content_hash, hash_algo)`. Prior behaviour: two spreadsheet
+  rows with identical cell values collapsed into one database row via upsert.
+
 ## [1.0.0] - 2026-09-20
 
 First stable release.
