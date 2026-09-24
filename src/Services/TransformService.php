@@ -18,7 +18,7 @@ final class TransformService
 
     public function apply(array $rawRow, ExcelSheet $sheet): array
     {
-        $sheetConfig = $this->config->get("excel-importer-sheets.{$sheet->name}", []);
+        $sheetConfig = $this->config->get("purser-sheets.{$sheet->name}", []);
 
         $mappedRow = $this->applyMapping($rawRow, $sheetConfig['mapping'] ?? []);
 

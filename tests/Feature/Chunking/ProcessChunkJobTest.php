@@ -1,11 +1,11 @@
 <?php
 
-use Akbarjimi\ExcelImporter\Enums\ExcelSheetStatus;
-use Akbarjimi\ExcelImporter\Jobs\ProcessChunkJob;
-use Akbarjimi\ExcelImporter\Models\ExcelRow;
-use Akbarjimi\ExcelImporter\Models\ExcelRowChunk;
-use Akbarjimi\ExcelImporter\Models\ExcelSheet;
-use Akbarjimi\ExcelImporter\Services\ChunkProcessor;
+use Akbarjimi\Purser\Enums\ExcelSheetStatus;
+use Akbarjimi\Purser\Jobs\ProcessChunkJob;
+use Akbarjimi\Purser\Models\ExcelRow;
+use Akbarjimi\Purser\Models\ExcelRowChunk;
+use Akbarjimi\Purser\Models\ExcelSheet;
+use Akbarjimi\Purser\Services\ChunkProcessor;
 
 it('processes a chunk idempotently', function () {
     $sheet = ExcelSheet::factory()->create([
@@ -27,5 +27,5 @@ it('processes a chunk idempotently', function () {
     $job->handle(app(ChunkProcessor::class));
     $job->handle(app(ChunkProcessor::class));
 
-    expect($chunk->fresh()->status)->toBe(\Akbarjimi\ExcelImporter\Enums\ExcelChunkStatus::COMPLETED);
+    expect($chunk->fresh()->status)->toBe(\Akbarjimi\Purser\Enums\ExcelChunkStatus::COMPLETED);
 });

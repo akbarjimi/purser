@@ -16,7 +16,7 @@ beforeEach(function () {
 
     config([
         'queue.default' => 'sync',
-        'excel-importer.default_disk' => 'local',
+        'purser.default_disk' => 'local',
     ]);
 
     Storage::fake('local');
@@ -28,7 +28,7 @@ it('runs the pipeline and cleans up after itself', function () {
         ->assertSuccessful();
 
     expect(ExcelFile::count())->toBe(0)
-        ->and(Storage::disk('local')->allFiles('excel-importer-benchmark'))->toBe([]);
+        ->and(Storage::disk('local')->allFiles('purser-benchmark'))->toBe([]);
 });
 
 it('keeps the fixture and file record with --keep', function () {
@@ -36,7 +36,7 @@ it('keeps the fixture and file record with --keep', function () {
         ->assertSuccessful();
 
     expect(ExcelFile::count())->toBe(1)
-        ->and(Storage::disk('local')->allFiles('excel-importer-benchmark'))->toHaveCount(1);
+        ->and(Storage::disk('local')->allFiles('purser-benchmark'))->toHaveCount(1);
 });
 
 it('rejects non-positive row counts', function () {

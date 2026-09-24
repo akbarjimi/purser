@@ -34,7 +34,7 @@ final class HandleFileSheetsScanCompleted implements ShouldQueueAfterCommit
 
     public function viaQueue(): string
     {
-        return config('excel-importer.queue', 'default');
+        return config('purser.queue', 'default');
     }
 
     public function tags(): array
@@ -46,7 +46,7 @@ final class HandleFileSheetsScanCompleted implements ShouldQueueAfterCommit
     {
         $sheets = $this->sheetRepo->getByFileId($event->fileId);
 
-        $limit = (int) config('excel-importer.max_sheets', 50);
+        $limit = (int) config('purser.max_sheets', 50);
         if ($sheets->count() > $limit) {
             $message = "File contains {$sheets->count()} sheets, which exceeds the maximum of {$limit}.";
             $this->fileRepo->markAsFailed($event->fileId, $message);
@@ -72,7 +72,7 @@ final class HandleFileSheetsScanCompleted implements ShouldQueueAfterCommit
 
         Bus::batch($jobs)
             ->name("excel-extract:{$fileId}")
-            ->onQueue(config('excel-importer.queue', 'default'))
+            ->onQueue(config('purser.queue', 'default'))
             ->allowFailures(false)
             ->then(static function (Batch $batch) use ($fileId) {
                 app(ExcelFileRepository::class)->markAsRowsExtracted($fileId);

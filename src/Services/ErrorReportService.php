@@ -77,7 +77,7 @@ final class ErrorReportService
         }
 
         $path ??= sprintf(
-            'excel-importer/errors/file-%d-%s.xlsx',
+            'purser/errors/file-%d-%s.xlsx',
             $fileId,
             now()->format('Ymd-His'),
         );

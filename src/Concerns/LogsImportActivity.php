@@ -11,7 +11,7 @@ trait LogsImportActivity
 {
     protected function importLog(LogLevel $level, string $message, array $context = []): void
     {
-        $channels = config('excel-importer.logging.channels', [config('logging.default', 'stack')]);
+        $channels = config('purser.logging.channels', [config('logging.default', 'stack')]);
 
         if (! is_array($channels) || $channels === []) {
             $channels = ['stack'];
@@ -20,7 +20,7 @@ trait LogsImportActivity
         Log::stack($channels)->log(
             $level->value,
             $message,
-            array_merge(['package' => 'excel-importer'], $context),
+            array_merge(['package' => 'purser'], $context),
         );
     }
 }

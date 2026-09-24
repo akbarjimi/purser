@@ -28,10 +28,10 @@ final class MultiSheetHandler implements ImportHandler
 beforeEach(function () {
     config([
         'queue.default' => 'sync',
-        'excel-importer-sheets.Sheet2.validation' => ['A' => 'required|integer'],
-        'excel-importer-sheets.Sheet3.validation' => ['A' => 'required|integer'],
-        'excel-importer-sheets.Sheet2.mapping' => ['A' => 'A', 'B' => 'B'],
-        'excel-importer-sheets.Sheet3.mapping' => ['A' => 'A', 'B' => 'B'],
+        'purser-sheets.Sheet2.validation' => ['A' => 'required|integer'],
+        'purser-sheets.Sheet3.validation' => ['A' => 'required|integer'],
+        'purser-sheets.Sheet2.mapping' => ['A' => 'A', 'B' => 'B'],
+        'purser-sheets.Sheet3.mapping' => ['A' => 'A', 'B' => 'B'],
     ]);
 
     Storage::disk('local')->put(

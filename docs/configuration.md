@@ -2,8 +2,8 @@
 
 Two files are published to `config/`:
 
-- `excel-importer.php` — pipeline-wide settings
-- `excel-importer-sheets.php` — per-sheet mapping, transformation, validation
+- `purser.php` — pipeline-wide settings
+- `purser-sheets.php` — per-sheet mapping, transformation, validation
 
 Publish with:
 
@@ -12,12 +12,12 @@ Publish with:
     php artisan vendor:publish --tag=purser-sheets
 ```
 
-## `excel-importer.php`
+## `purser.php`
 
 ### `driver`
 
 ```php
-    'driver' => env('EXCEL_IMPORTER_DRIVER', 'maatwebsite'),
+    'driver' => env('PURSER_DRIVER', 'maatwebsite'),
 ```
 
 Which reader driver to use. `maatwebsite` selects `PhpSpreadsheetDriver`;
@@ -28,7 +28,7 @@ container. If the underlying package is not installed, the driver throws
 ### `chunk_size`
 
 ```php
-    'chunk_size' => env('EXCEL_IMPORTER_CHUNK_SIZE', 1000),
+    'chunk_size' => env('PURSER_CHUNK_SIZE', 1000),
 ```
 
 Number of rows per processing chunk. Lower values reduce memory per worker
@@ -41,7 +41,7 @@ Postgres or MySQL with a fast disk, 5,000 to 20,000 is safe.
 ### `insert_batch_size`
 
 ```php
-    'insert_batch_size' => env('EXCEL_IMPORTER_INSERT_BATCH_SIZE', 100),
+    'insert_batch_size' => env('PURSER_INSERT_BATCH_SIZE', 100),
 ```
 
 Rows per database write during extraction and during chunk processing's
@@ -52,7 +52,7 @@ transaction.
 ### `default_disk`
 
 ```php
-    'default_disk' => env('EXCEL_IMPORTER_DISK', 'local'),
+    'default_disk' => env('PURSER_DISK', 'local'),
 ```
 
 Storage disk used when `ImportManager::import()` is called without an
@@ -61,7 +61,7 @@ explicit disk. Falls back to `filesystems.default` if this is null.
 ### `queue`
 
 ```php
-    'queue' => env('EXCEL_IMPORTER_QUEUE', 'default'),
+    'queue' => env('PURSER_QUEUE', 'default'),
 ```
 
 Queue connection name for all jobs and batches dispatched by the package. Set
@@ -81,7 +81,7 @@ higher if you legitimately import workbooks with many sheets.
 ### `strict_validation`
 
 ```php
-    'strict_validation' => env('EXCEL_IMPORTER_STRICT_VALIDATION', false),
+    'strict_validation' => env('PURSER_STRICT_VALIDATION', false),
 ```
 
 If `true`, `ValidateService` throws when a sheet has no validation rules
@@ -94,7 +94,7 @@ forgotten.
 ### `hash_algo`
 
 ```php
-    'hash_algo' => env('EXCEL_IMPORTER_HASH_ALGO', 'sha256'),
+    'hash_algo' => env('PURSER_HASH_ALGO', 'sha256'),
 ```
 
 Algorithm used to compute `content_hash` for each row. The hash, combined with
@@ -111,7 +111,7 @@ you would need to re-extract.
 
 ```php
     'advanced' => [
-        'bulk_upsert_chunk_size' => env('EXCEL_IMPORTER_BULK_UPSERT_CHUNK_SIZE', 500),
+        'bulk_upsert_chunk_size' => env('PURSER_BULK_UPSERT_CHUNK_SIZE', 500),
     ],
 ```
 
@@ -124,7 +124,7 @@ leave it at the default.
 
 ```php
     'logging' => [
-        'enabled' => (bool) env('EXCEL_IMPORTER_LOG_ENABLED', true),
+        'enabled' => (bool) env('PURSER_LOG_ENABLED', true),
         'channels' => ['stack'],
         'level' => 'info',
     ],
@@ -167,7 +167,7 @@ drivers here and select them via the `driver` key. Each class must implement
 `ExcelReaderDriver` and accept no required constructor arguments (it is
 instantiated by the container).
 
-## `excel-importer-sheets.php`
+## `purser-sheets.php`
 
 Keyed by sheet name. The sheet name is matched against the `name` column of
 `excel_sheets`, which comes directly from the file.
@@ -228,7 +228,7 @@ Validation runs against the output of the transformer, not the raw row.
 A row that fails validation is marked `FAILED_VALIDATION`. Each rule violation
 becomes one `ExcelRowError`. The row does not reach the handler.
 
-If validation is omitted and `excel-importer.strict_validation` is `false`,
+If validation is omitted and `purser.strict_validation` is `false`,
 every row passes.
 
 ## Environment variables
@@ -236,15 +236,15 @@ every row passes.
 Every key with an `env()` call in the config file can be set via `.env`:
 
 ```dotenv
-    EXCEL_IMPORTER_DRIVER=openspout
-    EXCEL_IMPORTER_CHUNK_SIZE=500
-    EXCEL_IMPORTER_INSERT_BATCH_SIZE=200
-    EXCEL_IMPORTER_DISK=s3
-    EXCEL_IMPORTER_QUEUE=imports
-    EXCEL_IMPORTER_HASH_ALGO=sha256
-    EXCEL_IMPORTER_STRICT_VALIDATION=true
-    EXCEL_IMPORTER_LOG_ENABLED=true
-    EXCEL_IMPORTER_BULK_UPSERT_CHUNK_SIZE=500
+    PURSER_DRIVER=openspout
+    PURSER_CHUNK_SIZE=500
+    PURSER_INSERT_BATCH_SIZE=200
+    PURSER_DISK=s3
+    PURSER_QUEUE=imports
+    PURSER_HASH_ALGO=sha256
+    PURSER_STRICT_VALIDATION=true
+    PURSER_LOG_ENABLED=true
+    PURSER_BULK_UPSERT_CHUNK_SIZE=500
 ```
 
 `max_sheets` is not currently wired to an env variable. Edit the config file

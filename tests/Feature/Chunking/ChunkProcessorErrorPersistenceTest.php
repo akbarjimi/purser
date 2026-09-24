@@ -18,8 +18,8 @@ uses(RefreshDatabase::class);
 
 it('keeps row errors when a later bulk update throws', function () {
     config([
-        'excel-importer-sheets.Sheet1.mapping' => ['email' => 'A'],
-        'excel-importer-sheets.Sheet1.validation' => ['email' => 'required|email'],
+        'purser-sheets.Sheet1.mapping' => ['email' => 'A'],
+        'purser-sheets.Sheet1.validation' => ['email' => 'required|email'],
     ]);
 
     $file = ExcelFile::factory()->create(['status' => ExcelFileStatus::PROCESSING->value]);

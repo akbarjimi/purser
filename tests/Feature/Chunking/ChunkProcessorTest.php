@@ -57,8 +57,8 @@ function makeSheetWithChunk(int $rowCount = 3, array $content = ['A' => 'value']
 
 it('marks row as failed when transformer throws, chunk still completes', function () {
     config([
-        'excel-importer-sheets.Sheet1.mapping' => ['email' => 'A'],
-        'excel-importer-sheets.Sheet1.transformer' => ThrowingTransformer::class,
+        'purser-sheets.Sheet1.mapping' => ['email' => 'A'],
+        'purser-sheets.Sheet1.transformer' => ThrowingTransformer::class,
     ]);
 
     [$file, $sheet, $rows, $chunk] = makeSheetWithChunk();
@@ -73,9 +73,9 @@ it('marks row as failed when transformer throws, chunk still completes', functio
 
 it('marks row as failed_validation when validation fails', function () {
     config([
-        'excel-importer-sheets.Sheet1.mapping' => ['email' => 'A'],
-        'excel-importer-sheets.Sheet1.transformer' => null,
-        'excel-importer-sheets.Sheet1.validation' => ['email' => 'required|email'],
+        'purser-sheets.Sheet1.mapping' => ['email' => 'A'],
+        'purser-sheets.Sheet1.transformer' => null,
+        'purser-sheets.Sheet1.validation' => ['email' => 'required|email'],
     ]);
 
     [$file, $sheet, $rows, $chunk] = makeSheetWithChunk(2);

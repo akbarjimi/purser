@@ -53,7 +53,7 @@ have no transformer, it runs against the mapped row.
 
 ### No rules configured
 
-If a sheet has no `validation` key and `excel-importer.strict_validation` is
+If a sheet has no `validation` key and `purser.strict_validation` is
 `false`, every row passes. If `strict_validation` is `true`, a
 `RuntimeException` is thrown naming the sheet. Set strict mode in production to
 catch misconfiguration.

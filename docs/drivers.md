@@ -140,7 +140,7 @@ purpose.
 
 Set the environment variable or the config value:
 
-    EXCEL_IMPORTER_DRIVER=openspout
+    PURSER_DRIVER=openspout
 
 Or in `config/purser.php`:
 
@@ -152,7 +152,7 @@ pipeline does not support per-sheet driver selection.
 
 ## Writing a custom driver
 
-Implement `ExcelReaderDriver` and register it in `excel-importer.drivers`:
+Implement `ExcelReaderDriver` and register it in `purser.drivers`:
 
     'drivers' => [
         'maatwebsite' => PhpSpreadsheetDriver::class,

@@ -15,9 +15,9 @@ final class ValidateService implements ValidatorInterface
 
     public function apply(array $payload, ExcelSheet $sheet): array
     {
-        $rules = $this->config->get("excel-importer-sheets.{$sheet->name}.validation", []);
+        $rules = $this->config->get("purser-sheets.{$sheet->name}.validation", []);
         if (empty($rules)) {
-            if ($this->config->get('excel-importer.strict_validation', false)) {
+            if ($this->config->get('purser.strict_validation', false)) {
                 throw new \RuntimeException("No validation rules for sheet [{$sheet->name}].");
             }
 

@@ -22,7 +22,7 @@ describe('ImportManager', function () {
     });
 
     it('uses default disk from config when not provided', function () {
-        config(['excel-importer.default_disk' => 's3']);
+        config(['purser.default_disk' => 's3']);
         config(['filesystems.default' => 'local']);
 
         $manager = app(ImportManager::class);
@@ -35,7 +35,7 @@ describe('ImportManager', function () {
     });
 
     it('falls back to filesystems.default if package config missing', function () {
-        config(['excel-importer.default_disk' => null]);
+        config(['purser.default_disk' => null]);
         config(['filesystems.default' => 'local']);
 
         $manager = app(ImportManager::class);

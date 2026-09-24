@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Tests;
+namespace Akbarjimi\Purser\Tests;
 
-use Akbarjimi\ExcelImporter\ExcelImporterServiceProvider;
+use Akbarjimi\Purser\PurserServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
@@ -14,7 +14,7 @@ abstract class TestCase extends Orchestra
         parent::setUp();
 
         config(['queue.default' => 'sync']);
-        config(['excel-importer-sheets' => require __DIR__.'/_fixtures/config/excel-importer-sheets.php']);
+        config(['purser-sheets' => require __DIR__.'/_fixtures/config/purser-sheets.php']);
 
     }
 
@@ -24,7 +24,7 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app): array
     {
         return [
-            ExcelImporterServiceProvider::class,
+            PurserServiceProvider::class,
             \Maatwebsite\Excel\ExcelServiceProvider::class,
         ];
     }
@@ -39,9 +39,9 @@ abstract class TestCase extends Orchestra
         ]);
 
         $app['config']->set('queue.batching.database', 'testbench');
-        $app['config']->set('excel-importer.default_disk', 'local');
-        $app['config']->set('excel-importer.hash_algo', 'md5');
-        $app['config']->set('excel-importer.max_sheets', 50);
+        $app['config']->set('purser.default_disk', 'local');
+        $app['config']->set('purser.hash_algo', 'md5');
+        $app['config']->set('purser.max_sheets', 50);
     }
 
     protected function defineDatabaseMigrations(): void

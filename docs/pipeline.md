@@ -33,7 +33,7 @@ to `READING`. On success, `FileSheetsScanCompleted` is fired.
 If the file already has sheets — which happens on a re-dispatch — the listener
 skips discovery and fires `FileSheetsScanCompleted` immediately.
 
-If the file has more sheets than `excel-importer.max_sheets`, the file is
+If the file has more sheets than `purser.max_sheets`, the file is
 marked `FAILED` and no further processing occurs.
 
 ### 3. Row extraction
@@ -178,7 +178,7 @@ Two batches run per import:
 | `excel-extract:{fileId}` | one per sheet | false           |
 | `excel-process:{fileId}` | one per chunk | true            |
 
-Both are dispatched onto `excel-importer.queue`. The batch IDs are recorded
+Both are dispatched onto `purser.queue`. The batch IDs are recorded
 on the `ExcelFile.batch_id` column by the batch's `finally` callback.
 
 Because `allowFailures(true)` is used for the processing batch, a chunk can

@@ -2,47 +2,47 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter;
+namespace Akbarjimi\Purser;
 
-use Akbarjimi\ExcelImporter\Console\Commands\BenchmarkCommand;
-use Akbarjimi\ExcelImporter\Console\Commands\RetryCommand;
-use Akbarjimi\ExcelImporter\Console\Commands\StatusCommand;
-use Akbarjimi\ExcelImporter\Contracts\ExcelReaderDriver;
-use Akbarjimi\ExcelImporter\Events\AllRowsExtracted;
-use Akbarjimi\ExcelImporter\Events\ExcelFileRegistered;
-use Akbarjimi\ExcelImporter\Events\FileProcessingCompleted;
-use Akbarjimi\ExcelImporter\Events\FileSheetsScanCompleted;
-use Akbarjimi\ExcelImporter\Listeners\HandleAllRowsExtracted;
-use Akbarjimi\ExcelImporter\Listeners\HandleExcelFileRegistered;
-use Akbarjimi\ExcelImporter\Listeners\HandleFileSheetsScanCompleted;
-use Akbarjimi\ExcelImporter\Listeners\InvokeImportHandler;
-use Akbarjimi\ExcelImporter\Repositories\ExcelRowChunkRepository;
-use Akbarjimi\ExcelImporter\Repositories\ExcelRowErrorRepository;
-use Akbarjimi\ExcelImporter\Repositories\ExcelRowRepository;
-use Akbarjimi\ExcelImporter\Repositories\ExcelSheetRepository;
-use Akbarjimi\ExcelImporter\Services\ChunkerService;
-use Akbarjimi\ExcelImporter\Services\ChunkProcessor;
-use Akbarjimi\ExcelImporter\Services\LocalFileResolver;
-use Akbarjimi\ExcelImporter\Services\RowExtractionService;
-use Akbarjimi\ExcelImporter\Services\TransformService;
-use Akbarjimi\ExcelImporter\Services\ValidateService;
-use Akbarjimi\ExcelImporter\Support\ExcelReaderManager;
+use Akbarjimi\Purser\Console\Commands\BenchmarkCommand;
+use Akbarjimi\Purser\Console\Commands\RetryCommand;
+use Akbarjimi\Purser\Console\Commands\StatusCommand;
+use Akbarjimi\Purser\Contracts\ExcelReaderDriver;
+use Akbarjimi\Purser\Events\AllRowsExtracted;
+use Akbarjimi\Purser\Events\ExcelFileRegistered;
+use Akbarjimi\Purser\Events\FileProcessingCompleted;
+use Akbarjimi\Purser\Events\FileSheetsScanCompleted;
+use Akbarjimi\Purser\Listeners\HandleAllRowsExtracted;
+use Akbarjimi\Purser\Listeners\HandleExcelFileRegistered;
+use Akbarjimi\Purser\Listeners\HandleFileSheetsScanCompleted;
+use Akbarjimi\Purser\Listeners\InvokeImportHandler;
+use Akbarjimi\Purser\Repositories\ExcelRowChunkRepository;
+use Akbarjimi\Purser\Repositories\ExcelRowErrorRepository;
+use Akbarjimi\Purser\Repositories\ExcelRowRepository;
+use Akbarjimi\Purser\Repositories\ExcelSheetRepository;
+use Akbarjimi\Purser\Services\ChunkerService;
+use Akbarjimi\Purser\Services\ChunkProcessor;
+use Akbarjimi\Purser\Services\LocalFileResolver;
+use Akbarjimi\Purser\Services\RowExtractionService;
+use Akbarjimi\Purser\Services\TransformService;
+use Akbarjimi\Purser\Services\ValidateService;
+use Akbarjimi\Purser\Support\ExcelReaderManager;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
-class ExcelImporterServiceProvider extends ServiceProvider
+class PurserServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
         $this->registerEventListeners();
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
         $this->publishes([
-            __DIR__.'/config/excel-importer.php' => config_path('excel-importer.php'),
-        ], 'excel-importer');
+            __DIR__.'/config/purser.php' => config_path('purser.php'),
+        ], 'purser');
         $this->publishes([
-            __DIR__.'/config/excel-importer-sheets.php' => config_path('excel-importer-sheets.php'),
-        ], 'excel-importer-sheets');
+            __DIR__.'/config/purser-sheets.php' => config_path('purser-sheets.php'),
+        ], 'purser-sheets');
         if ($this->app->runningInConsole()) {
             $this->commands([
                 StatusCommand::class,
@@ -54,7 +54,7 @@ class ExcelImporterServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__.'/config/excel-importer.php', 'excel-importer');
+        $this->mergeConfigFrom(__DIR__.'/config/purser.php', 'purser');
         $this->loadFactoriesFrom(__DIR__.'/database/factories');
 
         $this->app->singleton(ExcelReaderManager::class);
@@ -67,15 +67,15 @@ class ExcelImporterServiceProvider extends ServiceProvider
                 $app->make(ExcelSheetRepository::class),
                 $app->make(Factory::class),
                 $app->make(LocalFileResolver::class),
-                (int) config('excel-importer.insert_batch_size', 100),
-                (string) config('excel-importer.hash_algo', 'sha256'),
+                (int) config('purser.insert_batch_size', 100),
+                (string) config('purser.hash_algo', 'sha256'),
             );
         });
 
         $this->app->bind(LocalFileResolver::class);
 
         $this->app->bind(ChunkerService::class, fn ($app) => new ChunkerService(
-            (int) config('excel-importer.chunk_size', 1000),
+            (int) config('purser.chunk_size', 1000),
             $app->make(ExcelRowRepository::class),
             $app->make(ExcelRowChunkRepository::class),
             $app->make(ExcelSheetRepository::class),
@@ -89,7 +89,7 @@ class ExcelImporterServiceProvider extends ServiceProvider
                 $app->make(ExcelSheetRepository::class),
                 $app->make(TransformService::class),
                 $app->make(ValidateService::class),
-                (int) config('excel-importer.insert_batch_size', 100),
+                (int) config('purser.insert_batch_size', 100),
             );
         });
     }

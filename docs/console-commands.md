@@ -151,7 +151,7 @@ that the number reflects pipeline overhead, not handler cost.
 - `memory_reset_peak_usage()` requires PHP 8.2 or newer. On PHP 8.1 the peak
   memory includes framework bootstrap.
 - Do not run two benchmarks in the same process. The `--driver` option
-  mutates `excel-importer.driver` and is not reset between runs.
+  mutates `purser.driver` and is not reset between runs.
 - The benchmark measures wall-clock time on your machine. Numbers are not
   comparable across hardware.
 

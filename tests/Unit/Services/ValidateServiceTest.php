@@ -13,7 +13,7 @@ use Akbarjimi\Purser\Services\ValidateService;
  */
 describe('ValidateService', function () {
     it('validates row based on config rules', function () {
-        config(['excel-importer-sheets' => [
+        config(['purser-sheets' => [
             'Users' => [
                 'validation' => [
                     'name' => 'required|string|max:10',
@@ -32,7 +32,7 @@ describe('ValidateService', function () {
     });
 
     it('returns validation errors when invalid', function () {
-        config(['excel-importer-sheets' => [
+        config(['purser-sheets' => [
             'Users' => [
                 'validation' => [
                     'name' => 'required|string|max:10',
@@ -52,7 +52,7 @@ describe('ValidateService', function () {
     });
 
     it('returns empty array when no validation rules', function () {
-        config(['excel-importer-sheets' => [
+        config(['purser-sheets' => [
             'Users' => [],
         ]]);
 
@@ -66,10 +66,10 @@ describe('ValidateService', function () {
     });
 
     it('throws exception in strict mode with no rules', function () {
-        config(['excel-importer-sheets' => [
+        config(['purser-sheets' => [
             'Users' => [],
         ]]);
-        config(['excel-importer.strict_validation' => true]);
+        config(['purser.strict_validation' => true]);
 
         $sheet = ExcelSheet::factory()->make(['name' => 'Users']);
         $row = ['name' => 'John'];
@@ -79,7 +79,7 @@ describe('ValidateService', function () {
     })->throws(\RuntimeException::class, 'No validation rules');
 
     it('returns empty array when validation passes', function () {
-        config(['excel-importer-sheets.Orders.validation' => ['name' => 'required']]);
+        config(['purser-sheets.Orders.validation' => ['name' => 'required']]);
         $sheet = ExcelSheet::factory()->make(['name' => 'Orders']);
         $service = new ValidateService(app('config'));
         $errors = $service->apply(['name' => 'John'], $sheet);
@@ -87,7 +87,7 @@ describe('ValidateService', function () {
     });
 
     it('returns errors when validation fails', function () {
-        config(['excel-importer-sheets.Orders.validation' => ['name' => 'required']]);
+        config(['purser-sheets.Orders.validation' => ['name' => 'required']]);
         $sheet = ExcelSheet::factory()->make(['name' => 'Orders']);
         $service = new ValidateService(app('config'));
         $errors = $service->apply(['name' => ''], $sheet);

@@ -25,7 +25,7 @@ final class InvokeImportHandler implements ShouldQueueAfterCommit
 
     public function viaQueue(): string
     {
-        return config('excel-importer.queue', 'default');
+        return config('purser.queue', 'default');
     }
 
     public function tags(): array

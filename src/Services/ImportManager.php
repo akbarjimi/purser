@@ -19,7 +19,7 @@ final class ImportManager
     public function import(string $path, ?string $disk = null): PendingImport
     {
         $disk = $disk
-            ?? $this->config->get('excel-importer.default_disk')
+            ?? $this->config->get('purser.default_disk')
             ?? $this->config->get('filesystems.default')
             ?? 'local';
 

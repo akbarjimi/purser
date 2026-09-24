@@ -118,7 +118,7 @@ The public API consists of:
 - All classes in `Akbarjimi\Purser\Enums`
 - Public methods on `Services\ImportManager`, `Services\PendingImport`,
   `Services\ErrorReportService`
-- The `excel-importer` and `excel-importer-sheets` config keys
+- The `purser` and `purser-sheets` config keys
 - The three artisan command signatures
 
 Everything else — repositories, listeners, jobs, models — is internal and may

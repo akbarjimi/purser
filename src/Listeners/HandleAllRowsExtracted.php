@@ -33,7 +33,7 @@ final class HandleAllRowsExtracted implements ShouldQueueAfterCommit
 
     public function viaQueue(): string
     {
-        return config('excel-importer.queue', 'default');
+        return config('purser.queue', 'default');
     }
 
     public function tags(): array
@@ -78,7 +78,7 @@ final class HandleAllRowsExtracted implements ShouldQueueAfterCommit
 
         Bus::batch($jobs)
             ->name("excel-process:{$fileId}")
-            ->onQueue(config('excel-importer.queue', 'default'))
+            ->onQueue(config('purser.queue', 'default'))
             ->allowFailures(true)
             ->then(static function (Batch $batch) use ($fileId) {
                 if ($batch->failedJobs > 0) {

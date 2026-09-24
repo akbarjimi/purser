@@ -47,7 +47,7 @@ final class BenchmarkCommand extends Command
         $disk = (string) $this->option('disk');
 
         if (($driver = $this->option('driver')) !== null) {
-            config(['excel-importer.driver' => $driver]);
+            config(['purser.driver' => $driver]);
         }
 
         if (config("filesystems.disks.{$disk}.driver") !== 'local') {
@@ -58,7 +58,7 @@ final class BenchmarkCommand extends Command
 
         config(['queue.default' => 'sync']);
 
-        $relative = 'excel-importer-benchmark/'.'bench-'.$rows.'-'.bin2hex(random_bytes(4)).'.xlsx';
+        $relative = 'purser-benchmark/'.'bench-'.$rows.'-'.bin2hex(random_bytes(4)).'.xlsx';
         $absolute = Storage::disk($disk)->path($relative);
 
         $this->generateFixture($absolute, $rows);
@@ -180,9 +180,9 @@ final class BenchmarkCommand extends Command
                 ['Peak memory', $this->bytes($peakBytes)],
                 ['Rows persisted', number_format($rows)],
                 ['Rows to handler', number_format($handled)],
-                ['Reader driver', (string) config('excel-importer.driver')],
-                ['Chunk size', (string) config('excel-importer.chunk_size')],
-                ['Insert batch size', (string) config('excel-importer.insert_batch_size')],
+                ['Reader driver', (string) config('purser.driver')],
+                ['Chunk size', (string) config('purser.chunk_size')],
+                ['Insert batch size', (string) config('purser.insert_batch_size')],
                 ['PHP', PHP_VERSION],
                 ['Queue', 'sync'],
             ],

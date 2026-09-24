@@ -81,7 +81,7 @@ final class RetryCommand extends Command
 
         Bus::batch($jobs)
             ->name("excel-retry:{$fileId}")
-            ->onQueue(config('excel-importer.queue', 'default'))
+            ->onQueue(config('purser.queue', 'default'))
             ->allowFailures(true)
             ->then(static function (Batch $batch) use ($fileId): void {
                 if ($batch->failedJobs > 0) {

@@ -12,7 +12,7 @@ class ExcelReaderManager extends Manager
 {
     public function getDefaultDriver(): string
     {
-        return $this->config->get('excel-importer.driver', 'maatwebsite');
+        return $this->config->get('purser.driver', 'maatwebsite');
     }
 
     protected function createMaatwebsiteDriver(): ExcelReaderDriver

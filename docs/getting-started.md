@@ -104,7 +104,7 @@ Every row in the stream passed validation. Rows that failed are stored in
         ->dispatch();
 
 `import()` accepts a path relative to the storage disk and an optional disk
-name. If the disk is omitted, `excel-importer.default_disk` is used, falling
+name. If the disk is omitted, `purser.default_disk` is used, falling
 back to `filesystems.default`.
 
 `withHandler()` accepts a class-string of anything implementing
