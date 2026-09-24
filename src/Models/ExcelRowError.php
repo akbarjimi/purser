@@ -1,8 +1,8 @@
 <?php
 
-namespace Akbarjimi\ExcelImporter\Models;
+namespace Akbarjimi\Purser\Models;
 
-use Akbarjimi\ExcelImporter\Database\Factories\ExcelRowErrorFactory;
+use Akbarjimi\Purser\Database\Factories\ExcelRowErrorFactory;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

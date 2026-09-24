@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Listeners;
+namespace Akbarjimi\Purser\Listeners;
 
-use Akbarjimi\ExcelImporter\Concerns\LogsImportActivity;
-use Akbarjimi\ExcelImporter\Enums\LogLevel;
-use Akbarjimi\ExcelImporter\Events\ExcelFileRegistered;
-use Akbarjimi\ExcelImporter\Events\FileSheetsScanCompleted;
-use Akbarjimi\ExcelImporter\Repositories\ExcelFileRepository;
-use Akbarjimi\ExcelImporter\Repositories\ExcelSheetRepository;
-use Akbarjimi\ExcelImporter\Services\SheetDiscoveryService;
+use Akbarjimi\Purser\Concerns\LogsImportActivity;
+use Akbarjimi\Purser\Enums\LogLevel;
+use Akbarjimi\Purser\Events\ExcelFileRegistered;
+use Akbarjimi\Purser\Events\FileSheetsScanCompleted;
+use Akbarjimi\Purser\Repositories\ExcelFileRepository;
+use Akbarjimi\Purser\Repositories\ExcelSheetRepository;
+use Akbarjimi\Purser\Services\SheetDiscoveryService;
 use Illuminate\Contracts\Queue\ShouldQueueAfterCommit;
 use Illuminate\Queue\InteractsWithQueue;
 use Throwable;

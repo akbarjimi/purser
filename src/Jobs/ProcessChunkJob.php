@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Jobs;
+namespace Akbarjimi\Purser\Jobs;
 
-use Akbarjimi\ExcelImporter\Concerns\LogsImportActivity;
-use Akbarjimi\ExcelImporter\Services\ChunkProcessor;
+use Akbarjimi\Purser\Concerns\LogsImportActivity;
+use Akbarjimi\Purser\Services\ChunkProcessor;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

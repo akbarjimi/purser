@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Models;
+namespace Akbarjimi\Purser\Models;
 
-use Akbarjimi\ExcelImporter\Database\Factories\ExcelRowChunkFactory;
-use Akbarjimi\ExcelImporter\Enums\ExcelChunkStatus;
+use Akbarjimi\Purser\Database\Factories\ExcelRowChunkFactory;
+use Akbarjimi\Purser\Enums\ExcelChunkStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

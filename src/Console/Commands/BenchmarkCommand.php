@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Console\Commands;
+namespace Akbarjimi\Purser\Console\Commands;
 
-use Akbarjimi\ExcelImporter\Contracts\ImportHandler;
-use Akbarjimi\ExcelImporter\Enums\ExcelFileStatus;
-use Akbarjimi\ExcelImporter\Events\AllRowsExtracted;
-use Akbarjimi\ExcelImporter\Events\FileProcessingCompleted;
-use Akbarjimi\ExcelImporter\Events\FileSheetsScanCompleted;
-use Akbarjimi\ExcelImporter\Models\ExcelFile;
-use Akbarjimi\ExcelImporter\Services\ImportManager;
+use Akbarjimi\Purser\Contracts\ImportHandler;
+use Akbarjimi\Purser\Enums\ExcelFileStatus;
+use Akbarjimi\Purser\Events\AllRowsExtracted;
+use Akbarjimi\Purser\Events\FileProcessingCompleted;
+use Akbarjimi\Purser\Events\FileSheetsScanCompleted;
+use Akbarjimi\Purser\Models\ExcelFile;
+use Akbarjimi\Purser\Services\ImportManager;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Facades\Storage;

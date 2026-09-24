@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Repositories;
+namespace Akbarjimi\Purser\Repositories;
 
-use Akbarjimi\ExcelImporter\Models\ExcelRowError;
+use Akbarjimi\Purser\Models\ExcelRowError;
 use Illuminate\Support\Collection;
 
 final class ExcelRowErrorRepository

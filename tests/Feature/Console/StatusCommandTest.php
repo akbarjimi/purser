@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use Akbarjimi\ExcelImporter\Enums\ExcelFileStatus;
-use Akbarjimi\ExcelImporter\Models\ExcelFile;
-use Akbarjimi\ExcelImporter\Models\ExcelSheet;
+use Akbarjimi\Purser\Enums\ExcelFileStatus;
+use Akbarjimi\Purser\Models\ExcelFile;
+use Akbarjimi\Purser\Models\ExcelSheet;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);

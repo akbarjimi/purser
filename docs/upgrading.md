@@ -67,7 +67,7 @@ that the number is not available.
 
 1. Update `composer.json`:
 
-       composer require akbarjimi/laravel-excel-importer:^1.0
+       composer require akbarjimi/purser:^1.0
 
 2. Run the test suite in your application:
 
@@ -113,9 +113,9 @@ Starting with v1.0.0, this package follows semantic versioning:
 
 The public API consists of:
 
-- All classes in `Akbarjimi\ExcelImporter\Contracts`
-- All classes in `Akbarjimi\ExcelImporter\DTOs`
-- All classes in `Akbarjimi\ExcelImporter\Enums`
+- All classes in `Akbarjimi\Purser\Contracts`
+- All classes in `Akbarjimi\Purser\DTOs`
+- All classes in `Akbarjimi\Purser\Enums`
 - Public methods on `Services\ImportManager`, `Services\PendingImport`,
   `Services\ErrorReportService`
 - The `excel-importer` and `excel-importer-sheets` config keys

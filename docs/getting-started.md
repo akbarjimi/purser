@@ -4,7 +4,7 @@ From `composer require` to a working import in ten minutes.
 
 ## 1. Install the package
 
-composer require akbarjimi/laravel-excel-importer
+composer require akbarjimi/purser
 
 Pick a reader driver. The default is `maatwebsite/excel`:
 
@@ -18,14 +18,14 @@ You can install both and switch with an environment variable later.
 
 ## 2. Publish config and run migrations
 
-php artisan vendor:publish --tag=excel-importer
-php artisan vendor:publish --tag=excel-importer-sheets
+php artisan vendor:publish --tag=purser
+php artisan vendor:publish --tag=purser-sheets
 php artisan migrate
 
 Two config files are published:
 
-- `config/excel-importer.php` — global pipeline settings
-- `config/excel-importer-sheets.php` — per-sheet mapping, transformation, validation
+- `config/purser.php` — global pipeline settings
+- `config/purser-sheets.php` — per-sheet mapping, transformation, validation
 
 Five tables are created: `excel_files`, `excel_sheets`, `excel_rows`,
 `excel_row_chunks`, `excel_row_errors`.
@@ -33,7 +33,7 @@ Five tables are created: `excel_files`, `excel_sheets`, `excel_rows`,
 ## 3. Map a sheet
 
 Given a spreadsheet with columns A, B, C and headers on row 1, open
-`config/excel-importer-sheets.php` and add an entry keyed by sheet name:
+`config/purser-sheets.php` and add an entry keyed by sheet name:
 
 return [
 'Users' => [
@@ -68,8 +68,8 @@ declare(strict_types=1);
 
 namespace App\Imports;
 
-use Akbarjimi\ExcelImporter\Contracts\ImportHandler;
-use Akbarjimi\ExcelImporter\DTOs\ValidatedRow;
+use Akbarjimi\Purser\Contracts\ImportHandler;
+use Akbarjimi\Purser\DTOs\ValidatedRow;
 use App\Models\User;
 
 final class UserImportHandler implements ImportHandler
@@ -95,7 +95,7 @@ Every row in the stream passed validation. Rows that failed are stored in
 
 ## 5. Dispatch an import
 
-    use Akbarjimi\ExcelImporter\Services\ImportManager;
+    use Akbarjimi\Purser\Services\ImportManager;
     use App\Imports\UserImportHandler;
 
     $file = app(ImportManager::class)
@@ -137,7 +137,7 @@ worker:
 
 If any rows failed validation:
 
-    use Akbarjimi\ExcelImporter\Services\ErrorReportService;
+    use Akbarjimi\Purser\Services\ErrorReportService;
 
     $service = app(ErrorReportService::class);
 

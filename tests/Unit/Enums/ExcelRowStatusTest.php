@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Tests\Unit\Enums;
+namespace Akbarjimi\Purser\Tests\Unit\Enums;
 
-use Akbarjimi\ExcelImporter\Enums\ExcelRowStatus;
+use Akbarjimi\Purser\Enums\ExcelRowStatus;
 
 /**
  * Test the row status state machine.

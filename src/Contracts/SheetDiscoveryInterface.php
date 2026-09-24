@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Contracts;
+namespace Akbarjimi\Purser\Contracts;
 
-use Akbarjimi\ExcelImporter\DTOs\SheetInfo;
-use Akbarjimi\ExcelImporter\Models\ExcelFile;
+use Akbarjimi\Purser\DTOs\SheetInfo;
+use Akbarjimi\Purser\Models\ExcelFile;
 
 interface SheetDiscoveryInterface
 {

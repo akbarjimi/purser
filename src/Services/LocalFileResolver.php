@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Services;
+namespace Akbarjimi\Purser\Services;
 
 use Illuminate\Contracts\Filesystem\Filesystem;
 use RuntimeException;

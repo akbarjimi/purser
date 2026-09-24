@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Listeners;
+namespace Akbarjimi\Purser\Listeners;
 
-use Akbarjimi\ExcelImporter\Concerns\LogsImportActivity;
-use Akbarjimi\ExcelImporter\Enums\LogLevel;
-use Akbarjimi\ExcelImporter\Events\AllRowsExtracted;
-use Akbarjimi\ExcelImporter\Events\FileProcessingCompleted;
-use Akbarjimi\ExcelImporter\Jobs\ProcessChunkJob;
-use Akbarjimi\ExcelImporter\Repositories\ExcelFileRepository;
-use Akbarjimi\ExcelImporter\Services\ChunkerService;
+use Akbarjimi\Purser\Concerns\LogsImportActivity;
+use Akbarjimi\Purser\Enums\LogLevel;
+use Akbarjimi\Purser\Events\AllRowsExtracted;
+use Akbarjimi\Purser\Events\FileProcessingCompleted;
+use Akbarjimi\Purser\Jobs\ProcessChunkJob;
+use Akbarjimi\Purser\Repositories\ExcelFileRepository;
+use Akbarjimi\Purser\Services\ChunkerService;
 use Illuminate\Bus\Batch;
 use Illuminate\Contracts\Queue\ShouldQueueAfterCommit;
 use Illuminate\Queue\InteractsWithQueue;

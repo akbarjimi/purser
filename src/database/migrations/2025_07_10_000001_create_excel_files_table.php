@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Akbarjimi\ExcelImporter\Enums\ExcelFileStatus;
+use Akbarjimi\Purser\Enums\ExcelFileStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use Akbarjimi\ExcelImporter\Contracts\RowHandler;
-use Akbarjimi\ExcelImporter\Drivers\OpenSpoutDriver;
-use Akbarjimi\ExcelImporter\DTOs\RowData;
-use Akbarjimi\ExcelImporter\DTOs\SheetInfo;
+use Akbarjimi\Purser\Contracts\RowHandler;
+use Akbarjimi\Purser\Drivers\OpenSpoutDriver;
+use Akbarjimi\Purser\DTOs\RowData;
+use Akbarjimi\Purser\DTOs\SheetInfo;
 use OpenSpout\Reader\XLSX\Reader;
 
 beforeEach(function () {

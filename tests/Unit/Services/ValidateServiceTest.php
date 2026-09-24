@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Tests\Unit\Services;
+namespace Akbarjimi\Purser\Tests\Unit\Services;
 
-use Akbarjimi\ExcelImporter\Models\ExcelSheet;
-use Akbarjimi\ExcelImporter\Services\ValidateService;
+use Akbarjimi\Purser\Models\ExcelSheet;
+use Akbarjimi\Purser\Services\ValidateService;
 
 /**
  * @group services

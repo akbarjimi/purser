@@ -7,14 +7,18 @@ Two files are published to `config/`:
 
 Publish with:
 
-    php artisan vendor:publish --tag=excel-importer
-    php artisan vendor:publish --tag=excel-importer-sheets
+```php
+    php artisan vendor:publish --tag=purser
+    php artisan vendor:publish --tag=purser-sheets
+```
 
 ## `excel-importer.php`
 
 ### `driver`
 
+```php
     'driver' => env('EXCEL_IMPORTER_DRIVER', 'maatwebsite'),
+```
 
 Which reader driver to use. `maatwebsite` selects `PhpSpreadsheetDriver`;
 `openspout` selects `OpenSpoutDriver`. Both must be resolvable through the
@@ -23,7 +27,9 @@ container. If the underlying package is not installed, the driver throws
 
 ### `chunk_size`
 
+```php
     'chunk_size' => env('EXCEL_IMPORTER_CHUNK_SIZE', 1000),
+```
 
 Number of rows per processing chunk. Lower values reduce memory per worker
 and increase the number of queued jobs. Higher values reduce job overhead but
@@ -34,7 +40,9 @@ Postgres or MySQL with a fast disk, 5,000 to 20,000 is safe.
 
 ### `insert_batch_size`
 
+```php
     'insert_batch_size' => env('EXCEL_IMPORTER_INSERT_BATCH_SIZE', 100),
+```
 
 Rows per database write during extraction and during chunk processing's
 `bulkUpdate` calls. This is the size of a single `INSERT` statement, not the
@@ -43,14 +51,18 @@ transaction.
 
 ### `default_disk`
 
+```php
     'default_disk' => env('EXCEL_IMPORTER_DISK', 'local'),
+```
 
 Storage disk used when `ImportManager::import()` is called without an
 explicit disk. Falls back to `filesystems.default` if this is null.
 
 ### `queue`
 
+```php
     'queue' => env('EXCEL_IMPORTER_QUEUE', 'default'),
+```
 
 Queue connection name for all jobs and batches dispatched by the package. Set
 this to a queue with a real worker backing it in production. `sync` works for
@@ -58,7 +70,9 @@ tests and single-request imports.
 
 ### `max_sheets`
 
+```php
     'max_sheets' => 50,
+```
 
 Hard cap on the number of sheets in a single file. Files exceeding this are
 marked `FAILED` with a descriptive error before any rows are extracted. Set
@@ -66,7 +80,9 @@ higher if you legitimately import workbooks with many sheets.
 
 ### `strict_validation`
 
+```php
     'strict_validation' => env('EXCEL_IMPORTER_STRICT_VALIDATION', false),
+```
 
 If `true`, `ValidateService` throws when a sheet has no validation rules
 configured. If `false`, sheets without rules pass every row.
@@ -77,7 +93,9 @@ forgotten.
 
 ### `hash_algo`
 
+```php
     'hash_algo' => env('EXCEL_IMPORTER_HASH_ALGO', 'sha256'),
+```
 
 Algorithm used to compute `content_hash` for each row. The hash, combined with
 `excel_sheet_id`, is a unique key on `excel_rows`. Re-extracting the same file
@@ -91,9 +109,11 @@ you would need to re-extract.
 
 ### `advanced.bulk_upsert_chunk_size`
 
+```php
     'advanced' => [
         'bulk_upsert_chunk_size' => env('EXCEL_IMPORTER_BULK_UPSERT_CHUNK_SIZE', 500),
     ],
+```
 
 Second-level chunking inside `ExcelRowRepository::bulkUpsert()` and
 `bulkUpdate()`. Rows are written in slices of this size within each call. Do
@@ -102,11 +122,13 @@ leave it at the default.
 
 ### `logging.enabled`
 
+```php
     'logging' => [
         'enabled' => (bool) env('EXCEL_IMPORTER_LOG_ENABLED', true),
         'channels' => ['stack'],
         'level' => 'info',
     ],
+```
 
 `enabled` is read by consumers if they want to gate logging on their own.
 The package itself always writes through `LogsImportActivity`, which uses
@@ -114,7 +136,9 @@ The package itself always writes through `LogsImportActivity`, which uses
 
 ### `logging.channels`
 
+```php
     'channels' => ['stack'],
+```
 
 Array of log channels. Passed to `Log::stack()`. Set to `['daily']` to
 isolate importer logs from the rest of the application, or
@@ -122,17 +146,21 @@ isolate importer logs from the rest of the application, or
 
 ### `logging.level`
 
+```php
     'level' => 'info',
+```
 
 Minimum level written by the package's internal `importLog()` calls. Not
 currently consumed by the trait; reserved for future use.
 
 ### `drivers`
 
+```php
     'drivers' => [
         'maatwebsite' => PhpSpreadsheetDriver::class,
         'openspout'   => OpenSpoutDriver::class,
     ],
+```
 
 Map of driver keys to reader driver classes. Registered users can add custom
 drivers here and select them via the `driver` key. Each class must implement
@@ -146,11 +174,13 @@ Keyed by sheet name. The sheet name is matched against the `name` column of
 
 ### `mapping`
 
+```php
     'mapping' => [
         'name'  => 'A',
         'email' => 'B',
         'age'   => 'C',
     ],
+```
 
 Maps target field names to source column letters. The keys become the array
 keys in `ValidatedRow::$data`. The values are the column letters as returned
@@ -164,7 +194,9 @@ If a source column is absent from the file, the mapped field is `null`.
 
 ### `transformer`
 
+```php
     'transformer' => App\Transformers\UserTransformer::class,
+```
 
 Optional. A class implementing `TransformerInterface`. It receives the mapped
 row after `mapping` is applied and returns the array that will be validated.
@@ -179,11 +211,13 @@ and the exception message is written to `excel_row_errors`.
 
 ### `validation`
 
+```php
     'validation' => [
         'name'  => 'required|string|max:255',
         'email' => 'required|email',
         'age'   => 'required|integer|min:18',
     ],
+```
 
 Standard Laravel validation rules. Keys are field names from the mapping.
 Values are rule strings or arrays of rules, passed directly to
@@ -201,6 +235,7 @@ every row passes.
 
 Every key with an `env()` call in the config file can be set via `.env`:
 
+```dotenv
     EXCEL_IMPORTER_DRIVER=openspout
     EXCEL_IMPORTER_CHUNK_SIZE=500
     EXCEL_IMPORTER_INSERT_BATCH_SIZE=200
@@ -210,6 +245,7 @@ Every key with an `env()` call in the config file can be set via `.env`:
     EXCEL_IMPORTER_STRICT_VALIDATION=true
     EXCEL_IMPORTER_LOG_ENABLED=true
     EXCEL_IMPORTER_BULK_UPSERT_CHUNK_SIZE=500
+```
 
 `max_sheets` is not currently wired to an env variable. Edit the config file
 directly if you need to change it.

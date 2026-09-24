@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Tests\Unit\DTOs;
+namespace Akbarjimi\Purser\Tests\Unit\DTOs;
 
-use Akbarjimi\ExcelImporter\DTOs\ValidatedRow;
+use Akbarjimi\Purser\DTOs\ValidatedRow;
 
 /**
  * Test the ValidatedRow DTO.

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Services;
+namespace Akbarjimi\Purser\Services;
 
-use Akbarjimi\ExcelImporter\Contracts\ImportHandler;
-use Akbarjimi\ExcelImporter\Enums\ExcelFileStatus;
-use Akbarjimi\ExcelImporter\Events\ExcelFileRegistered;
-use Akbarjimi\ExcelImporter\Exceptions\ImportFileNotFoundException;
-use Akbarjimi\ExcelImporter\Exceptions\MissingHandlerException;
-use Akbarjimi\ExcelImporter\Models\ExcelFile;
-use Akbarjimi\ExcelImporter\Repositories\ExcelFileRepository;
+use Akbarjimi\Purser\Contracts\ImportHandler;
+use Akbarjimi\Purser\Enums\ExcelFileStatus;
+use Akbarjimi\Purser\Events\ExcelFileRegistered;
+use Akbarjimi\Purser\Exceptions\ImportFileNotFoundException;
+use Akbarjimi\Purser\Exceptions\MissingHandlerException;
+use Akbarjimi\Purser\Models\ExcelFile;
+use Akbarjimi\Purser\Repositories\ExcelFileRepository;
 use Illuminate\Contracts\Filesystem\Factory as FilesystemFactory;
 use Illuminate\Support\Facades\DB;
 

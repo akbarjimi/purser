@@ -1,6 +1,6 @@
 <?php
 
-namespace Akbarjimi\ExcelImporter\Exceptions;
+namespace Akbarjimi\Purser\Exceptions;
 
 use RuntimeException;
 

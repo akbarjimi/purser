@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Enums;
+namespace Akbarjimi\Purser\Enums;
 
 enum LogLevel: string
 {

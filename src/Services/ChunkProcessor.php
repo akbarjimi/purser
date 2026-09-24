@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Services;
+namespace Akbarjimi\Purser\Services;
 
-use Akbarjimi\ExcelImporter\Enums\ExcelChunkStatus;
-use Akbarjimi\ExcelImporter\Enums\ExcelRowStatus;
-use Akbarjimi\ExcelImporter\Models\ExcelRow;
-use Akbarjimi\ExcelImporter\Repositories\ExcelRowChunkRepository;
-use Akbarjimi\ExcelImporter\Repositories\ExcelRowErrorRepository;
-use Akbarjimi\ExcelImporter\Repositories\ExcelRowRepository;
-use Akbarjimi\ExcelImporter\Repositories\ExcelSheetRepository;
+use Akbarjimi\Purser\Enums\ExcelChunkStatus;
+use Akbarjimi\Purser\Enums\ExcelRowStatus;
+use Akbarjimi\Purser\Models\ExcelRow;
+use Akbarjimi\Purser\Repositories\ExcelRowChunkRepository;
+use Akbarjimi\Purser\Repositories\ExcelRowErrorRepository;
+use Akbarjimi\Purser\Repositories\ExcelRowRepository;
+use Akbarjimi\Purser\Repositories\ExcelSheetRepository;
 use Throwable;
 
 final class ChunkProcessor

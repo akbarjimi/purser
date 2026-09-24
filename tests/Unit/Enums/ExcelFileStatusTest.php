@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Tests\Unit\Enums;
+namespace Akbarjimi\Purser\Tests\Unit\Enums;
 
-use Akbarjimi\ExcelImporter\Enums\ExcelFileStatus;
+use Akbarjimi\Purser\Enums\ExcelFileStatus;
 
 /**
  * Test the file status state machine.

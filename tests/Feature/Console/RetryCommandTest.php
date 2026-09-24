@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-use Akbarjimi\ExcelImporter\Enums\ExcelChunkStatus;
-use Akbarjimi\ExcelImporter\Enums\ExcelFileStatus;
-use Akbarjimi\ExcelImporter\Enums\ExcelSheetStatus;
-use Akbarjimi\ExcelImporter\Models\ExcelFile;
-use Akbarjimi\ExcelImporter\Models\ExcelRowChunk;
-use Akbarjimi\ExcelImporter\Models\ExcelSheet;
+use Akbarjimi\Purser\Enums\ExcelChunkStatus;
+use Akbarjimi\Purser\Enums\ExcelFileStatus;
+use Akbarjimi\Purser\Enums\ExcelSheetStatus;
+use Akbarjimi\Purser\Models\ExcelFile;
+use Akbarjimi\Purser\Models\ExcelRowChunk;
+use Akbarjimi\Purser\Models\ExcelSheet;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Bus;
 

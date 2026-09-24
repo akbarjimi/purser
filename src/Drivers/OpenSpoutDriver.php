@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Drivers;
+namespace Akbarjimi\Purser\Drivers;
 
-use Akbarjimi\ExcelImporter\Contracts\ExcelReaderDriver;
-use Akbarjimi\ExcelImporter\Contracts\RowHandler;
-use Akbarjimi\ExcelImporter\DTOs\RowData;
-use Akbarjimi\ExcelImporter\DTOs\SheetInfo;
-use Akbarjimi\ExcelImporter\Exceptions\MissingDriverDependencyException;
+use Akbarjimi\Purser\Contracts\ExcelReaderDriver;
+use Akbarjimi\Purser\Contracts\RowHandler;
+use Akbarjimi\Purser\DTOs\RowData;
+use Akbarjimi\Purser\DTOs\SheetInfo;
+use Akbarjimi\Purser\Exceptions\MissingDriverDependencyException;
 use OpenSpout\Reader\XLSX\Reader;
 
 final class OpenSpoutDriver implements ExcelReaderDriver

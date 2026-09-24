@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Console\Commands;
+namespace Akbarjimi\Purser\Console\Commands;
 
-use Akbarjimi\ExcelImporter\Enums\ExcelChunkStatus;
-use Akbarjimi\ExcelImporter\Enums\ExcelRowStatus;
-use Akbarjimi\ExcelImporter\Models\ExcelFile;
-use Akbarjimi\ExcelImporter\Models\ExcelRow;
-use Akbarjimi\ExcelImporter\Models\ExcelRowChunk;
-use Akbarjimi\ExcelImporter\Models\ExcelRowError;
+use Akbarjimi\Purser\Enums\ExcelChunkStatus;
+use Akbarjimi\Purser\Enums\ExcelRowStatus;
+use Akbarjimi\Purser\Models\ExcelFile;
+use Akbarjimi\Purser\Models\ExcelRow;
+use Akbarjimi\Purser\Models\ExcelRowChunk;
+use Akbarjimi\Purser\Models\ExcelRowError;
 use Illuminate\Console\Command;
 
 final class StatusCommand extends Command

@@ -1,5 +1,5 @@
 {
-  "name": "akbarjimi/laravel-excel-importer",
+  "name": "akbarjimi/purser",
   "description": "Distributed, event-driven, queue-based Excel importer for Laravel with pluggable drivers, validation, transformation, and row-level error recovery.",
   "keywords": ["laravel", "excel", "import", "queue", "batch", "xlsx", "openspout", "phpspreadsheet"],
   "type": "library",
@@ -29,13 +29,13 @@
   },
   "autoload": {
     "psr-4": {
-      "Akbarjimi\\ExcelImporter\\": "src/",
-      "Akbarjimi\\ExcelImporter\\Database\\Factories\\": "src/database/factories"
+      "Akbarjimi\\Purser\\": "src/",
+      "Akbarjimi\\Purser\\Database\\Factories\\": "src/database/factories"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Akbarjimi\\ExcelImporter\\Tests\\": "tests/"
+      "Akbarjimi\\Purser\\Tests\\": "tests/"
     }
   },
   "config": {
@@ -52,7 +52,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Akbarjimi\\ExcelImporter\\ExcelImporterServiceProvider"
+        "Akbarjimi\\Purser\\PurserServiceProvider"
       ]
     }
   },

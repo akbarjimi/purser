@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Listeners;
+namespace Akbarjimi\Purser\Listeners;
 
-use Akbarjimi\ExcelImporter\Concerns\LogsImportActivity;
-use Akbarjimi\ExcelImporter\Contracts\ImportHandler;
-use Akbarjimi\ExcelImporter\Enums\LogLevel;
-use Akbarjimi\ExcelImporter\Events\FileProcessingCompleted;
-use Akbarjimi\ExcelImporter\Repositories\ExcelFileRepository;
-use Akbarjimi\ExcelImporter\Repositories\ExcelRowRepository;
+use Akbarjimi\Purser\Concerns\LogsImportActivity;
+use Akbarjimi\Purser\Contracts\ImportHandler;
+use Akbarjimi\Purser\Enums\LogLevel;
+use Akbarjimi\Purser\Events\FileProcessingCompleted;
+use Akbarjimi\Purser\Repositories\ExcelFileRepository;
+use Akbarjimi\Purser\Repositories\ExcelRowRepository;
 use Illuminate\Contracts\Queue\ShouldQueueAfterCommit;
 use Illuminate\Queue\InteractsWithQueue;
 

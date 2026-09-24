@@ -2,12 +2,12 @@
 
 ## Install
 ```bash
-composer require akbarjimi/laravel-excel-importer
+composer require akbarjimi/purser
 ```
 
 ## Publish config (if needed later)
 ```bash
-php artisan vendor:publish --tag=excel-importer-config
+php artisan vendor:publish --tag=purser-config
 ```
 
 ## Example Controller

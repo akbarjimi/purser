@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Tests\Unit\Repositories;
+namespace Akbarjimi\Purser\Tests\Unit\Repositories;
 
-use Akbarjimi\ExcelImporter\DTOs\ValidatedRow;
-use Akbarjimi\ExcelImporter\Enums\ExcelRowStatus;
-use Akbarjimi\ExcelImporter\Models\ExcelFile;
-use Akbarjimi\ExcelImporter\Models\ExcelRow;
-use Akbarjimi\ExcelImporter\Models\ExcelSheet;
-use Akbarjimi\ExcelImporter\Repositories\ExcelRowRepository;
+use Akbarjimi\Purser\DTOs\ValidatedRow;
+use Akbarjimi\Purser\Enums\ExcelRowStatus;
+use Akbarjimi\Purser\Models\ExcelFile;
+use Akbarjimi\Purser\Models\ExcelRow;
+use Akbarjimi\Purser\Models\ExcelSheet;
+use Akbarjimi\Purser\Repositories\ExcelRowRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**

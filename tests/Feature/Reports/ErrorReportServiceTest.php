@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-use Akbarjimi\ExcelImporter\Enums\ExcelRowStatus;
-use Akbarjimi\ExcelImporter\Models\ExcelFile;
-use Akbarjimi\ExcelImporter\Models\ExcelRow;
-use Akbarjimi\ExcelImporter\Models\ExcelRowError;
-use Akbarjimi\ExcelImporter\Models\ExcelSheet;
-use Akbarjimi\ExcelImporter\Services\ErrorReportService;
+use Akbarjimi\Purser\Enums\ExcelRowStatus;
+use Akbarjimi\Purser\Models\ExcelFile;
+use Akbarjimi\Purser\Models\ExcelRow;
+use Akbarjimi\Purser\Models\ExcelRowError;
+use Akbarjimi\Purser\Models\ExcelSheet;
+use Akbarjimi\Purser\Services\ErrorReportService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use OpenSpout\Writer\XLSX\Writer;

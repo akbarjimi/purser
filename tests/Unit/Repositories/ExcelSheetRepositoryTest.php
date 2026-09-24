@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Tests\Unit\Repositories;
+namespace Akbarjimi\Purser\Tests\Unit\Repositories;
 
-use Akbarjimi\ExcelImporter\DTOs\SheetInfo;
-use Akbarjimi\ExcelImporter\Enums\ExcelSheetStatus;
-use Akbarjimi\ExcelImporter\Exceptions\Sheet\EmptySheetException;
-use Akbarjimi\ExcelImporter\Models\ExcelFile;
-use Akbarjimi\ExcelImporter\Models\ExcelSheet;
-use Akbarjimi\ExcelImporter\Repositories\ExcelSheetRepository;
+use Akbarjimi\Purser\DTOs\SheetInfo;
+use Akbarjimi\Purser\Enums\ExcelSheetStatus;
+use Akbarjimi\Purser\Exceptions\Sheet\EmptySheetException;
+use Akbarjimi\Purser\Models\ExcelFile;
+use Akbarjimi\Purser\Models\ExcelSheet;
+use Akbarjimi\Purser\Repositories\ExcelSheetRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**

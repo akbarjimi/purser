@@ -1,11 +1,11 @@
 <?php
 
-namespace Akbarjimi\ExcelImporter\Support;
+namespace Akbarjimi\Purser\Support;
 
-use Akbarjimi\ExcelImporter\Contracts\ExcelReaderDriver;
-use Akbarjimi\ExcelImporter\Drivers\OpenSpoutDriver;
-use Akbarjimi\ExcelImporter\Drivers\PhpSpreadsheetDriver;
-use Akbarjimi\ExcelImporter\Exceptions\MissingDriverDependencyException;
+use Akbarjimi\Purser\Contracts\ExcelReaderDriver;
+use Akbarjimi\Purser\Drivers\OpenSpoutDriver;
+use Akbarjimi\Purser\Drivers\PhpSpreadsheetDriver;
+use Akbarjimi\Purser\Exceptions\MissingDriverDependencyException;
 use Illuminate\Support\Manager;
 
 class ExcelReaderManager extends Manager

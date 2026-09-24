@@ -1,8 +1,8 @@
 # Laravel Excel Importer
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/akbarjimi/laravel-excel-importer.svg?style=flat-square)](https://packagist.org/packages/akbarjimi/laravel-excel-importer)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/akbarjimi/purser.svg?style=flat-square)](https://packagist.org/packages/akbarjimi/purser)
 [![Tests](https://img.shields.io/github/actions/workflow/status/akbarjimi/excel-importer-pipeline/tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/akbarjimi/excel-importer-pipeline/actions)
-[![Total Downloads](https://img.shields.io/packagist/dt/akbarjimi/laravel-excel-importer.svg?style=flat-square)](https://packagist.org/packages/akbarjimi/laravel-excel-importer)
+[![Total Downloads](https://img.shields.io/packagist/dt/akbarjimi/purser.svg?style=flat-square)](https://packagist.org/packages/akbarjimi/purser)
 
 A distributed, event-driven, queue-based Excel import pipeline for Laravel.
 Pluggable reader drivers, per-row validation, per-row error recovery, and a
@@ -32,14 +32,14 @@ valid.
 ## Installation
 
 ```shell
-    composer require akbarjimi/laravel-excel-importer
-    php artisan vendor:publish --tag=excel-importer
-    php artisan vendor:publish --tag=excel-importer-sheets
+    composer require akbarjimi/purser
+    php artisan vendor:publish --tag=purser
+    php artisan vendor:publish --tag=purser-sheets
     php artisan migrate
 ```
 
-The first publish command installs `config/excel-importer.php`. The second
-installs `config/excel-importer-sheets.php`, where you map spreadsheet columns
+The first publish command installs `config/purser.php`. The second
+installs `config/purser-sheets.php`, where you map spreadsheet columns
 to your domain fields and declare validation rules per sheet.
 
 ## Quickstart
@@ -54,8 +54,8 @@ your application needs.
 
     namespace App\Imports;
 
-    use Akbarjimi\ExcelImporter\Contracts\ImportHandler;
-    use Akbarjimi\ExcelImporter\DTOs\ValidatedRow;
+    use Akbarjimi\Purser\Contracts\ImportHandler;
+    use Akbarjimi\Purser\DTOs\ValidatedRow;
     use App\Models\User;
 
     final class UserImportHandler implements ImportHandler
@@ -77,7 +77,7 @@ your application needs.
     }
 ```
 
-Configure the sheet in `config/excel-importer-sheets.php`.
+Configure the sheet in `config/purser-sheets.php`.
 
 ```php
     return [
@@ -100,7 +100,7 @@ Configure the sheet in `config/excel-importer-sheets.php`.
 Dispatch the import.
 
 ```php
-    use Akbarjimi\ExcelImporter\Services\ImportManager;
+    use Akbarjimi\Purser\Services\ImportManager;
     use App\Imports\UserImportHandler;
 
     app(ImportManager::class)
@@ -161,7 +161,7 @@ processed.
 Retrieve the failures:
 
 ```php
-    use Akbarjimi\ExcelImporter\Services\ErrorReportService;
+    use Akbarjimi\Purser\Services\ErrorReportService;
 
     $service = app(ErrorReportService::class);
 
@@ -176,7 +176,7 @@ in `FAILED` status with at least one failed chunk are eligible.
 
 ## Configuration
 
-The full config file lives at `config/excel-importer.php` after publishing.
+The full config file lives at `config/purser.php` after publishing.
 Selected keys:
 
 | Key                 | Default       | Purpose                           |
@@ -190,7 +190,7 @@ Selected keys:
 | `default_disk`      | `local`       | Storage disk for uploaded files   |
 | `queue`             | `default`     | Queue connection for jobs         |
 
-Per-sheet mapping and validation rules live in `config/excel-importer-sheets.php`.
+Per-sheet mapping and validation rules live in `config/purser-sheets.php`.
 
 ## Console commands
 

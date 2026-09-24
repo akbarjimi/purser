@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Repositories;
+namespace Akbarjimi\Purser\Repositories;
 
-use Akbarjimi\ExcelImporter\Concerns\HasStatusTransitions;
-use Akbarjimi\ExcelImporter\DTOs\SheetInfo;
-use Akbarjimi\ExcelImporter\Enums\ExcelSheetStatus;
-use Akbarjimi\ExcelImporter\Exceptions\Sheet\EmptySheetException;
-use Akbarjimi\ExcelImporter\Models\ExcelSheet;
+use Akbarjimi\Purser\Concerns\HasStatusTransitions;
+use Akbarjimi\Purser\DTOs\SheetInfo;
+use Akbarjimi\Purser\Enums\ExcelSheetStatus;
+use Akbarjimi\Purser\Exceptions\Sheet\EmptySheetException;
+use Akbarjimi\Purser\Models\ExcelSheet;
 use Illuminate\Support\Collection;
 
 final class ExcelSheetRepository

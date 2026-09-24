@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Repositories;
+namespace Akbarjimi\Purser\Repositories;
 
-use Akbarjimi\ExcelImporter\Concerns\HasStatusTransitions;
-use Akbarjimi\ExcelImporter\DTOs\ValidatedRow;
-use Akbarjimi\ExcelImporter\Enums\ExcelRowStatus;
-use Akbarjimi\ExcelImporter\Models\ExcelRow;
+use Akbarjimi\Purser\Concerns\HasStatusTransitions;
+use Akbarjimi\Purser\DTOs\ValidatedRow;
+use Akbarjimi\Purser\Enums\ExcelRowStatus;
+use Akbarjimi\Purser\Models\ExcelRow;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\LazyCollection;
 

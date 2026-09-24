@@ -1,10 +1,10 @@
 <?php
 
-namespace Akbarjimi\ExcelImporter\Database\Factories;
+namespace Akbarjimi\Purser\Database\Factories;
 
-use Akbarjimi\ExcelImporter\Enums\ExcelRowStatus;
-use Akbarjimi\ExcelImporter\Models\ExcelRow;
-use Akbarjimi\ExcelImporter\Models\ExcelSheet;
+use Akbarjimi\Purser\Enums\ExcelRowStatus;
+use Akbarjimi\Purser\Models\ExcelRow;
+use Akbarjimi\Purser\Models\ExcelSheet;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ExcelRowFactory extends Factory

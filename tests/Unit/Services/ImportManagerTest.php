@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Tests\Unit\Services;
+namespace Akbarjimi\Purser\Tests\Unit\Services;
 
-use Akbarjimi\ExcelImporter\Services\ImportManager;
-use Akbarjimi\ExcelImporter\Services\PendingImport;
+use Akbarjimi\Purser\Services\ImportManager;
+use Akbarjimi\Purser\Services\PendingImport;
 
 /**
  * Tests the ImportManager entry point.

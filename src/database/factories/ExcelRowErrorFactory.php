@@ -1,9 +1,9 @@
 <?php
 
-namespace Akbarjimi\ExcelImporter\Database\Factories;
+namespace Akbarjimi\Purser\Database\Factories;
 
-use Akbarjimi\ExcelImporter\Models\ExcelRow;
-use Akbarjimi\ExcelImporter\Models\ExcelRowError;
+use Akbarjimi\Purser\Models\ExcelRow;
+use Akbarjimi\Purser\Models\ExcelRowError;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ExcelRowErrorFactory extends Factory

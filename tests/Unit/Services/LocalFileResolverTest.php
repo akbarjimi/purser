@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Akbarjimi\ExcelImporter\Services\LocalFileResolver;
+use Akbarjimi\Purser\Services\LocalFileResolver;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Storage;
 

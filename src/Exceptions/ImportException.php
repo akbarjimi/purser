@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Exceptions;
+namespace Akbarjimi\Purser\Exceptions;
 
 use RuntimeException;
 

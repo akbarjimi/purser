@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Console\Commands;
+namespace Akbarjimi\Purser\Console\Commands;
 
-use Akbarjimi\ExcelImporter\Enums\ExcelChunkStatus;
-use Akbarjimi\ExcelImporter\Enums\ExcelFileStatus;
-use Akbarjimi\ExcelImporter\Events\FileProcessingCompleted;
-use Akbarjimi\ExcelImporter\Jobs\ProcessChunkJob;
-use Akbarjimi\ExcelImporter\Models\ExcelFile;
-use Akbarjimi\ExcelImporter\Models\ExcelRowChunk;
-use Akbarjimi\ExcelImporter\Repositories\ExcelFileRepository;
-use Akbarjimi\ExcelImporter\Repositories\ExcelRowChunkRepository;
+use Akbarjimi\Purser\Enums\ExcelChunkStatus;
+use Akbarjimi\Purser\Enums\ExcelFileStatus;
+use Akbarjimi\Purser\Events\FileProcessingCompleted;
+use Akbarjimi\Purser\Jobs\ProcessChunkJob;
+use Akbarjimi\Purser\Models\ExcelFile;
+use Akbarjimi\Purser\Models\ExcelRowChunk;
+use Akbarjimi\Purser\Repositories\ExcelFileRepository;
+use Akbarjimi\Purser\Repositories\ExcelRowChunkRepository;
 use Illuminate\Bus\Batch;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Bus;

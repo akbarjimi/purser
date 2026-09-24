@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Database\Factories;
+namespace Akbarjimi\Purser\Database\Factories;
 
-use Akbarjimi\ExcelImporter\Enums\ExcelSheetStatus;
-use Akbarjimi\ExcelImporter\Models\ExcelFile;
-use Akbarjimi\ExcelImporter\Models\ExcelSheet;
+use Akbarjimi\Purser\Enums\ExcelSheetStatus;
+use Akbarjimi\Purser\Models\ExcelFile;
+use Akbarjimi\Purser\Models\ExcelSheet;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ExcelSheetFactory extends Factory

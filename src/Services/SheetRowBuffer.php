@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Services;
+namespace Akbarjimi\Purser\Services;
 
-use Akbarjimi\ExcelImporter\Contracts\RowHandler;
-use Akbarjimi\ExcelImporter\DTOs\RowData;
-use Akbarjimi\ExcelImporter\DTOs\StagedRow;
-use Akbarjimi\ExcelImporter\Repositories\ExcelRowRepository;
+use Akbarjimi\Purser\Contracts\RowHandler;
+use Akbarjimi\Purser\DTOs\RowData;
+use Akbarjimi\Purser\DTOs\StagedRow;
+use Akbarjimi\Purser\Repositories\ExcelRowRepository;
 
 final class SheetRowBuffer implements RowHandler
 {

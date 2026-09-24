@@ -1,7 +1,7 @@
 <?php
 
-namespace Akbarjimi\ExcelImporter\Exceptions\Sheet;
+namespace Akbarjimi\Purser\Exceptions\Sheet;
 
-use Akbarjimi\ExcelImporter\Exceptions\ImportException;
+use Akbarjimi\Purser\Exceptions\ImportException;
 
 class SheetNotFoundException extends ImportException {}

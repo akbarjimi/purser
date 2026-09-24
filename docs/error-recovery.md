@@ -10,7 +10,7 @@ Two failure classes exist, and they are handled differently.
 ### Validation failure (per row, expected)
 
 A row was transformed successfully but failed one or more rules from
-`config/excel-importer-sheets.php`. The row is marked
+`config/purser-sheets.php`. The row is marked
 `ExcelRowStatus::FAILED_VALIDATION`, one `ExcelRowError` per rule violation is
 written, and the chunk continues with the next row.
 
@@ -53,7 +53,7 @@ are retained for the audit trail until you prune them.
 
     declare(strict_types=1);
 
-    use Akbarjimi\ExcelImporter\Services\ErrorReportService;
+    use Akbarjimi\Purser\Services\ErrorReportService;
 
     $service = app(ErrorReportService::class);
 

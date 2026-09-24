@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Repositories;
+namespace Akbarjimi\Purser\Repositories;
 
-use Akbarjimi\ExcelImporter\Concerns\HasStatusTransitions;
-use Akbarjimi\ExcelImporter\Enums\ExcelFileStatus;
-use Akbarjimi\ExcelImporter\Models\ExcelFile;
+use Akbarjimi\Purser\Concerns\HasStatusTransitions;
+use Akbarjimi\Purser\Enums\ExcelFileStatus;
+use Akbarjimi\Purser\Models\ExcelFile;
 
 final class ExcelFileRepository
 {

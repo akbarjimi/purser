@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Database\Factories;
+namespace Akbarjimi\Purser\Database\Factories;
 
-use Akbarjimi\ExcelImporter\Enums\ExcelFileStatus;
-use Akbarjimi\ExcelImporter\Models\ExcelFile;
+use Akbarjimi\Purser\Enums\ExcelFileStatus;
+use Akbarjimi\Purser\Models\ExcelFile;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ExcelFileFactory extends Factory

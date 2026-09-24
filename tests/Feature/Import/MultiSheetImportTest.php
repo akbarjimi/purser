@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-use Akbarjimi\ExcelImporter\Contracts\ImportHandler;
-use Akbarjimi\ExcelImporter\Enums\ExcelFileStatus;
-use Akbarjimi\ExcelImporter\Enums\ExcelSheetStatus;
-use Akbarjimi\ExcelImporter\Models\ExcelRow;
-use Akbarjimi\ExcelImporter\Models\ExcelSheet;
-use Akbarjimi\ExcelImporter\Services\ImportManager;
+use Akbarjimi\Purser\Contracts\ImportHandler;
+use Akbarjimi\Purser\Enums\ExcelFileStatus;
+use Akbarjimi\Purser\Enums\ExcelSheetStatus;
+use Akbarjimi\Purser\Models\ExcelRow;
+use Akbarjimi\Purser\Models\ExcelSheet;
+use Akbarjimi\Purser\Services\ImportManager;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 

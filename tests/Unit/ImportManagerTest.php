@@ -1,9 +1,9 @@
 <?php
 
-use Akbarjimi\ExcelImporter\Contracts\ImportHandler;
-use Akbarjimi\ExcelImporter\Events\ExcelFileRegistered;
-use Akbarjimi\ExcelImporter\Models\ExcelFile;
-use Akbarjimi\ExcelImporter\Services\ImportManager;
+use Akbarjimi\Purser\Contracts\ImportHandler;
+use Akbarjimi\Purser\Events\ExcelFileRegistered;
+use Akbarjimi\Purser\Models\ExcelFile;
+use Akbarjimi\Purser\Services\ImportManager;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 

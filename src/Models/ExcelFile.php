@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Models;
+namespace Akbarjimi\Purser\Models;
 
-use Akbarjimi\ExcelImporter\Database\Factories\ExcelFileFactory;
-use Akbarjimi\ExcelImporter\Enums\ExcelFileStatus;
+use Akbarjimi\Purser\Database\Factories\ExcelFileFactory;
+use Akbarjimi\Purser\Enums\ExcelFileStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;

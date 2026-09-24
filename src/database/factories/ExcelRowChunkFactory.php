@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Database\Factories;
+namespace Akbarjimi\Purser\Database\Factories;
 
-use Akbarjimi\ExcelImporter\Enums\ExcelChunkStatus;
-use Akbarjimi\ExcelImporter\Models\ExcelRowChunk;
-use Akbarjimi\ExcelImporter\Models\ExcelSheet;
+use Akbarjimi\Purser\Enums\ExcelChunkStatus;
+use Akbarjimi\Purser\Models\ExcelRowChunk;
+use Akbarjimi\Purser\Models\ExcelSheet;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ExcelRowChunkFactory extends Factory

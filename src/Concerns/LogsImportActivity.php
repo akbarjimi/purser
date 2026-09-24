@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Concerns;
+namespace Akbarjimi\Purser\Concerns;
 
-use Akbarjimi\ExcelImporter\Enums\LogLevel;
+use Akbarjimi\Purser\Enums\LogLevel;
 use Illuminate\Support\Facades\Log;
 
 trait LogsImportActivity

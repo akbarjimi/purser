@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Akbarjimi\ExcelImporter\Models\ExcelFile;
+use Akbarjimi\Purser\Models\ExcelFile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use OpenSpout\Writer\XLSX\Writer;

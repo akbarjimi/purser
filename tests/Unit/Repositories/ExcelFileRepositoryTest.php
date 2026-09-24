@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Tests\Unit\Repositories;
+namespace Akbarjimi\Purser\Tests\Unit\Repositories;
 
-use Akbarjimi\ExcelImporter\Enums\ExcelFileStatus;
-use Akbarjimi\ExcelImporter\Models\ExcelFile;
-use Akbarjimi\ExcelImporter\Models\ExcelSheet;
-use Akbarjimi\ExcelImporter\Repositories\ExcelFileRepository;
+use Akbarjimi\Purser\Enums\ExcelFileStatus;
+use Akbarjimi\Purser\Models\ExcelFile;
+use Akbarjimi\Purser\Models\ExcelSheet;
+use Akbarjimi\Purser\Repositories\ExcelFileRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**

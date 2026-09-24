@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Contracts;
+namespace Akbarjimi\Purser\Contracts;
 
-use Akbarjimi\ExcelImporter\Models\ExcelSheet;
+use Akbarjimi\Purser\Models\ExcelSheet;
 
 interface TransformerInterface
 {

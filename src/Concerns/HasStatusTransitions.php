@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Concerns;
+namespace Akbarjimi\Purser\Concerns;
 
 use Illuminate\Database\Eloquent\Model;
 

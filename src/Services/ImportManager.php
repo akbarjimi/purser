@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Services;
+namespace Akbarjimi\Purser\Services;
 
-use Akbarjimi\ExcelImporter\Repositories\ExcelFileRepository;
+use Akbarjimi\Purser\Repositories\ExcelFileRepository;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Filesystem\Factory as FilesystemFactory;
 

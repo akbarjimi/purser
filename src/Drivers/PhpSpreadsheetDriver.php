@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Drivers;
+namespace Akbarjimi\Purser\Drivers;
 
-use Akbarjimi\ExcelImporter\Contracts\ExcelReaderDriver;
-use Akbarjimi\ExcelImporter\Contracts\RowHandler;
-use Akbarjimi\ExcelImporter\DTOs\RowData;
-use Akbarjimi\ExcelImporter\DTOs\SheetInfo;
+use Akbarjimi\Purser\Contracts\ExcelReaderDriver;
+use Akbarjimi\Purser\Contracts\RowHandler;
+use Akbarjimi\Purser\DTOs\RowData;
+use Akbarjimi\Purser\DTOs\SheetInfo;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 final class PhpSpreadsheetDriver implements ExcelReaderDriver

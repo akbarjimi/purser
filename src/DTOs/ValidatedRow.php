@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\DTOs;
+namespace Akbarjimi\Purser\DTOs;
 
 final class ValidatedRow
 {

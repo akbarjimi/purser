@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Events;
+namespace Akbarjimi\Purser\Events;
 
 use Illuminate\Foundation\Events\Dispatchable;
 

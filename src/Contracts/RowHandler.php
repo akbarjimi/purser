@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Contracts;
+namespace Akbarjimi\Purser\Contracts;
 
-use Akbarjimi\ExcelImporter\DTOs\RowData;
+use Akbarjimi\Purser\DTOs\RowData;
 
 interface RowHandler
 {

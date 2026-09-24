@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Services;
+namespace Akbarjimi\Purser\Services;
 
-use Akbarjimi\ExcelImporter\Concerns\LogsImportActivity;
-use Akbarjimi\ExcelImporter\Contracts\ExcelReaderDriver;
-use Akbarjimi\ExcelImporter\Contracts\RowExtractorInterface;
-use Akbarjimi\ExcelImporter\Enums\LogLevel;
-use Akbarjimi\ExcelImporter\Models\ExcelSheet;
-use Akbarjimi\ExcelImporter\Repositories\ExcelRowRepository;
-use Akbarjimi\ExcelImporter\Repositories\ExcelSheetRepository;
+use Akbarjimi\Purser\Concerns\LogsImportActivity;
+use Akbarjimi\Purser\Contracts\ExcelReaderDriver;
+use Akbarjimi\Purser\Contracts\RowExtractorInterface;
+use Akbarjimi\Purser\Enums\LogLevel;
+use Akbarjimi\Purser\Models\ExcelSheet;
+use Akbarjimi\Purser\Repositories\ExcelRowRepository;
+use Akbarjimi\Purser\Repositories\ExcelSheetRepository;
 use Illuminate\Contracts\Filesystem\Factory as FilesystemFactory;
 use Throwable;
 

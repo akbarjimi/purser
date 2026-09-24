@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Services;
+namespace Akbarjimi\Purser\Services;
 
-use Akbarjimi\ExcelImporter\Contracts\ExcelReaderDriver;
-use Akbarjimi\ExcelImporter\Contracts\SheetDiscoveryInterface;
-use Akbarjimi\ExcelImporter\Models\ExcelFile;
+use Akbarjimi\Purser\Contracts\ExcelReaderDriver;
+use Akbarjimi\Purser\Contracts\SheetDiscoveryInterface;
+use Akbarjimi\Purser\Models\ExcelFile;
 use Illuminate\Contracts\Filesystem\Factory as FilesystemFactory;
 
 final class SheetDiscoveryService implements SheetDiscoveryInterface

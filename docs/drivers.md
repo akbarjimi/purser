@@ -9,9 +9,9 @@ implementations ship with the package. You can add your own.
 
     declare(strict_types=1);
 
-    namespace Akbarjimi\ExcelImporter\Contracts;
+    namespace Akbarjimi\Purser\Contracts;
 
-    use Akbarjimi\ExcelImporter\DTOs\SheetInfo;
+    use Akbarjimi\Purser\DTOs\SheetInfo;
 
     interface ExcelReaderDriver
     {
@@ -142,7 +142,7 @@ Set the environment variable or the config value:
 
     EXCEL_IMPORTER_DRIVER=openspout
 
-Or in `config/excel-importer.php`:
+Or in `config/purser.php`:
 
     'driver' => 'openspout',
 
@@ -180,7 +180,7 @@ user — the exception names the composer command they need.
 
 Both shipped drivers guard their entry points:
 
-    use Akbarjimi\ExcelImporter\Exceptions\MissingDriverDependencyException;
+    use Akbarjimi\Purser\Exceptions\MissingDriverDependencyException;
 
     private function ensureInstalled(): void
     {

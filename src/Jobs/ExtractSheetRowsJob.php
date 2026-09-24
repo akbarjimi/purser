@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Jobs;
+namespace Akbarjimi\Purser\Jobs;
 
-use Akbarjimi\ExcelImporter\Repositories\ExcelSheetRepository;
-use Akbarjimi\ExcelImporter\Services\RowExtractionService;
+use Akbarjimi\Purser\Repositories\ExcelSheetRepository;
+use Akbarjimi\Purser\Services\RowExtractionService;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

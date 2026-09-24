@@ -1,7 +1,7 @@
 # Validation and Transformation
 
 Two optional stages run between the reader and the handler. Both are
-configured per sheet in `config/excel-importer-sheets.php`.
+configured per sheet in `config/purser-sheets.php`.
 
 The order is fixed:
 
@@ -79,8 +79,8 @@ config.
 
     namespace App\Transformers;
 
-    use Akbarjimi\ExcelImporter\Contracts\TransformerInterface;
-    use Akbarjimi\ExcelImporter\Models\ExcelSheet;
+    use Akbarjimi\Purser\Contracts\TransformerInterface;
+    use Akbarjimi\Purser\Models\ExcelSheet;
 
     final class UserTransformer implements TransformerInterface
     {

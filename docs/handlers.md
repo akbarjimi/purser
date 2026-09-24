@@ -9,7 +9,7 @@ configuration.
 
     declare(strict_types=1);
 
-    namespace Akbarjimi\ExcelImporter\Contracts;
+    namespace Akbarjimi\Purser\Contracts;
 
     interface ImportHandler
     {
@@ -43,7 +43,7 @@ payload — the keys are the target field names from your mapping config.
 
 ## Dispatch
 
-    use Akbarjimi\ExcelImporter\Services\ImportManager;
+    use Akbarjimi\Purser\Services\ImportManager;
 
     app(ImportManager::class)
         ->import('uploads/users.xlsx', disk: 's3')
@@ -149,7 +149,7 @@ Pick upsert-by-key unless the domain forbids it.
 The handler receives the file ID, not the model. If you need the file's
 metadata:
 
-    use Akbarjimi\ExcelImporter\Models\ExcelFile;
+    use Akbarjimi\Purser\Models\ExcelFile;
 
     $file = ExcelFile::with('excelSheets')->find($fileId);
 

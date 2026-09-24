@@ -75,7 +75,7 @@ return [
      * Custom driver mappings (advanced).
      */
     'drivers' => [
-        'maatwebsite' => \Akbarjimi\ExcelImporter\Drivers\PhpSpreadsheetDriver::class,
-        'openspout' => \Akbarjimi\ExcelImporter\Drivers\OpenSpoutDriver::class,
+        'maatwebsite' => \Akbarjimi\Purser\Drivers\PhpSpreadsheetDriver::class,
+        'openspout' => \Akbarjimi\Purser\Drivers\OpenSpoutDriver::class,
     ],
 ];

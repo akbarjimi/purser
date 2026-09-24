@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 First stable release.
 
+### Renamed
+
+- Package renamed from `laravel-excel-importer` to `purser`. Namespace changed
+  from `Akbarjimi\ExcelImporter` to `Akbarjimi\Purser`. Config files renamed
+  from `excel-importer.php` to `purser.php` and `excel-importer-sheets.php`
+  to `purser-sheets.php`.
+
 ### Added
 
 - Event-driven import pipeline with four stages: sheet discovery, row extraction,

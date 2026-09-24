@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Repositories;
+namespace Akbarjimi\Purser\Repositories;
 
-use Akbarjimi\ExcelImporter\Concerns\HasStatusTransitions;
-use Akbarjimi\ExcelImporter\Enums\ExcelChunkStatus;
-use Akbarjimi\ExcelImporter\Models\ExcelRowChunk;
+use Akbarjimi\Purser\Concerns\HasStatusTransitions;
+use Akbarjimi\Purser\Enums\ExcelChunkStatus;
+use Akbarjimi\Purser\Models\ExcelRowChunk;
 use Illuminate\Support\Collection;
 
 final class ExcelRowChunkRepository

@@ -1,11 +1,11 @@
 <?php
 
-use Akbarjimi\ExcelImporter\Enums\ExcelSheetStatus;
-use Akbarjimi\ExcelImporter\Jobs\ProcessChunkJob;
-use Akbarjimi\ExcelImporter\Models\ExcelFile;
-use Akbarjimi\ExcelImporter\Models\ExcelRow;
-use Akbarjimi\ExcelImporter\Models\ExcelSheet;
-use Akbarjimi\ExcelImporter\Services\ChunkerService;
+use Akbarjimi\Purser\Enums\ExcelSheetStatus;
+use Akbarjimi\Purser\Jobs\ProcessChunkJob;
+use Akbarjimi\Purser\Models\ExcelFile;
+use Akbarjimi\Purser\Models\ExcelRow;
+use Akbarjimi\Purser\Models\ExcelSheet;
+use Akbarjimi\Purser\Services\ChunkerService;
 use Illuminate\Support\Facades\Bus;
 
 it('creates deterministic chunks and dispatches jobs after commit', function () {

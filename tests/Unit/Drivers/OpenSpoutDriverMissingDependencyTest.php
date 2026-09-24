@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use Akbarjimi\ExcelImporter\Contracts\RowHandler;
-use Akbarjimi\ExcelImporter\Drivers\OpenSpoutDriver;
-use Akbarjimi\ExcelImporter\DTOs\RowData;
-use Akbarjimi\ExcelImporter\Exceptions\MissingDriverDependencyException;
+use Akbarjimi\Purser\Contracts\RowHandler;
+use Akbarjimi\Purser\Drivers\OpenSpoutDriver;
+use Akbarjimi\Purser\DTOs\RowData;
+use Akbarjimi\Purser\Exceptions\MissingDriverDependencyException;
 use OpenSpout\Reader\XLSX\Reader;
 
 it('throws MissingDriverDependencyException from readRows when openspout is absent', function () {

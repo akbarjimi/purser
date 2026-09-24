@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Services;
+namespace Akbarjimi\Purser\Services;
 
-use Akbarjimi\ExcelImporter\Concerns\LogsImportActivity;
-use Akbarjimi\ExcelImporter\Contracts\ChunkerInterface;
-use Akbarjimi\ExcelImporter\Enums\ExcelChunkStatus;
-use Akbarjimi\ExcelImporter\Enums\LogLevel;
-use Akbarjimi\ExcelImporter\Models\ExcelFile;
-use Akbarjimi\ExcelImporter\Models\ExcelSheet;
-use Akbarjimi\ExcelImporter\Repositories\ExcelRowChunkRepository;
-use Akbarjimi\ExcelImporter\Repositories\ExcelRowRepository;
-use Akbarjimi\ExcelImporter\Repositories\ExcelSheetRepository;
+use Akbarjimi\Purser\Concerns\LogsImportActivity;
+use Akbarjimi\Purser\Contracts\ChunkerInterface;
+use Akbarjimi\Purser\Enums\ExcelChunkStatus;
+use Akbarjimi\Purser\Enums\LogLevel;
+use Akbarjimi\Purser\Models\ExcelFile;
+use Akbarjimi\Purser\Models\ExcelSheet;
+use Akbarjimi\Purser\Repositories\ExcelRowChunkRepository;
+use Akbarjimi\Purser\Repositories\ExcelRowRepository;
+use Akbarjimi\Purser\Repositories\ExcelSheetRepository;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 

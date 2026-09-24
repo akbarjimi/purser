@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Akbarjimi\ExcelImporter\Exceptions\MissingDriverDependencyException;
+use Akbarjimi\Purser\Exceptions\MissingDriverDependencyException;
 
 it('names the driver, package, and install command in the message', function () {
     $exception = MissingDriverDependencyException::for('openspout', 'openspout/openspout');

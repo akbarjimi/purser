@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Services;
+namespace Akbarjimi\Purser\Services;
 
-use Akbarjimi\ExcelImporter\Contracts\ValidatorInterface;
-use Akbarjimi\ExcelImporter\Models\ExcelSheet;
+use Akbarjimi\Purser\Contracts\ValidatorInterface;
+use Akbarjimi\Purser\Models\ExcelSheet;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Support\Facades\Validator;
 

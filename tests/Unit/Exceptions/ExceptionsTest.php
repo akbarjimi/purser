@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Tests\Unit\Exceptions;
+namespace Akbarjimi\Purser\Tests\Unit\Exceptions;
 
-use Akbarjimi\ExcelImporter\Exceptions\ImportException;
-use Akbarjimi\ExcelImporter\Exceptions\ImportFileNotFoundException;
-use Akbarjimi\ExcelImporter\Exceptions\MissingHandlerException;
-use Akbarjimi\ExcelImporter\Exceptions\Sheet\EmptySheetException;
-use Akbarjimi\ExcelImporter\Exceptions\Sheet\SheetNotFoundException;
+use Akbarjimi\Purser\Exceptions\ImportException;
+use Akbarjimi\Purser\Exceptions\ImportFileNotFoundException;
+use Akbarjimi\Purser\Exceptions\MissingHandlerException;
+use Akbarjimi\Purser\Exceptions\Sheet\EmptySheetException;
+use Akbarjimi\Purser\Exceptions\Sheet\SheetNotFoundException;
 
 /**
  * Test all custom exceptions.

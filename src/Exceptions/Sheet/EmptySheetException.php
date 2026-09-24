@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Akbarjimi\ExcelImporter\Exceptions\Sheet;
+namespace Akbarjimi\Purser\Exceptions\Sheet;
 
-use Akbarjimi\ExcelImporter\Exceptions\ImportException;
+use Akbarjimi\Purser\Exceptions\ImportException;
 
 final class EmptySheetException extends ImportException
 {
