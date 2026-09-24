@@ -14,7 +14,7 @@ use OpenSpout\Writer\XLSX\Writer;
 
 uses(RefreshDatabase::class);
 
-if (!class_exists(Writer::class)) {
+if (! class_exists(Writer::class)) {
     test('spreadsheet export')->skip('openspout/openspout not installed');
 }
 
@@ -78,6 +78,6 @@ it('writes a spreadsheet to the given disk', function () {
 
     Storage::disk('local')->assertExists($path);
 })->skip(
-    !class_exists(Writer::class),
+    ! class_exists(Writer::class),
     'openspout/openspout not installed',
 );

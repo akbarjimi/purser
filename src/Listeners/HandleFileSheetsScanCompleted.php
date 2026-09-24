@@ -15,8 +15,8 @@ use Illuminate\Bus\Batch;
 use Illuminate\Contracts\Queue\ShouldQueueAfterCommit;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Bus;
-use Throwable;
 use Illuminate\Support\Facades\Log;
+use Throwable;
 
 final class HandleFileSheetsScanCompleted implements ShouldQueueAfterCommit
 {

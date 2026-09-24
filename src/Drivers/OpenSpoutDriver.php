@@ -77,7 +77,7 @@ final class OpenSpoutDriver implements ExcelReaderDriver
 
     private function ensureInstalled(): void
     {
-        if (!class_exists(Reader::class)) {
+        if (! class_exists(Reader::class)) {
             throw MissingDriverDependencyException::for('openspout', 'openspout/openspout');
         }
     }
@@ -103,7 +103,7 @@ final class OpenSpoutDriver implements ExcelReaderDriver
         $index++;
         while ($index > 0) {
             $index--;
-            $letter = chr(65 + ($index % 26)) . $letter;
+            $letter = chr(65 + ($index % 26)).$letter;
             $index = intdiv($index, 26);
         }
 

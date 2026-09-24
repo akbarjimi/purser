@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace Akbarjimi\ExcelImporter\Tests;
 
 use Akbarjimi\ExcelImporter\ExcelImporterServiceProvider;
-use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Queue;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra

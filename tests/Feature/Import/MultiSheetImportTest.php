@@ -36,7 +36,7 @@ beforeEach(function () {
 
     Storage::disk('local')->put(
         'testing/2sheets2rows.xlsx',
-        file_get_contents(__DIR__ . '/../../stubs/2sheets2rows.xlsx'),
+        file_get_contents(__DIR__.'/../../stubs/2sheets2rows.xlsx'),
     );
 
     $this->handler = new MultiSheetHandler;

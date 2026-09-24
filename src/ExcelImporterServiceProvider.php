@@ -36,12 +36,12 @@ class ExcelImporterServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->registerEventListeners();
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
         $this->publishes([
-            __DIR__ . '/config/excel-importer.php' => config_path('excel-importer.php'),
+            __DIR__.'/config/excel-importer.php' => config_path('excel-importer.php'),
         ], 'excel-importer');
         $this->publishes([
-            __DIR__ . '/config/excel-importer-sheets.php' => config_path('excel-importer-sheets.php'),
+            __DIR__.'/config/excel-importer-sheets.php' => config_path('excel-importer-sheets.php'),
         ], 'excel-importer-sheets');
         if ($this->app->runningInConsole()) {
             $this->commands([
@@ -54,11 +54,11 @@ class ExcelImporterServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/config/excel-importer.php', 'excel-importer');
-        $this->loadFactoriesFrom(__DIR__ . '/database/factories');
+        $this->mergeConfigFrom(__DIR__.'/config/excel-importer.php', 'excel-importer');
+        $this->loadFactoriesFrom(__DIR__.'/database/factories');
 
         $this->app->singleton(ExcelReaderManager::class);
-        $this->app->bind(ExcelReaderDriver::class, fn($app) => $app->make(ExcelReaderManager::class)->driver());
+        $this->app->bind(ExcelReaderDriver::class, fn ($app) => $app->make(ExcelReaderManager::class)->driver());
 
         $this->app->bind(RowExtractionService::class, function ($app) {
             return new RowExtractionService(
@@ -67,15 +67,15 @@ class ExcelImporterServiceProvider extends ServiceProvider
                 $app->make(ExcelSheetRepository::class),
                 $app->make(Factory::class),
                 $app->make(LocalFileResolver::class),
-                (int)config('excel-importer.insert_batch_size', 100),
-                (string)config('excel-importer.hash_algo', 'sha256'),
+                (int) config('excel-importer.insert_batch_size', 100),
+                (string) config('excel-importer.hash_algo', 'sha256'),
             );
         });
 
         $this->app->bind(LocalFileResolver::class);
 
-        $this->app->bind(ChunkerService::class, fn($app) => new ChunkerService(
-            (int)config('excel-importer.chunk_size', 1000),
+        $this->app->bind(ChunkerService::class, fn ($app) => new ChunkerService(
+            (int) config('excel-importer.chunk_size', 1000),
             $app->make(ExcelRowRepository::class),
             $app->make(ExcelRowChunkRepository::class),
             $app->make(ExcelSheetRepository::class),
@@ -89,7 +89,7 @@ class ExcelImporterServiceProvider extends ServiceProvider
                 $app->make(ExcelSheetRepository::class),
                 $app->make(TransformService::class),
                 $app->make(ValidateService::class),
-                (int)config('excel-importer.insert_batch_size', 100),
+                (int) config('excel-importer.insert_batch_size', 100),
             );
         });
     }

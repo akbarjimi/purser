@@ -87,7 +87,7 @@ it('marks row as failed_validation when validation fails', function () {
 
     $statuses = ExcelRow::whereIn('id', $rows->pluck('id'))
         ->pluck('status', 'id')
-        ->map(fn($s) => $s->value)
+        ->map(fn ($s) => $s->value)
         ->all();
 
     expect($statuses[$rows->first()->id])->toBe(ExcelRowStatus::FAILED_VALIDATION->value)

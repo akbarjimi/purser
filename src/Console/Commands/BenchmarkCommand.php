@@ -31,20 +31,20 @@ final class BenchmarkCommand extends Command
 
     public function handle(ImportManager $imports, Dispatcher $events): int
     {
-        if (!class_exists(Writer::class)) {
+        if (! class_exists(Writer::class)) {
             $this->error('openspout/openspout is required for the benchmark fixture: composer require --dev openspout/openspout');
 
             return self::FAILURE;
         }
 
-        $rows = (int)$this->option('rows');
+        $rows = (int) $this->option('rows');
         if ($rows < 1) {
             $this->error('--rows must be a positive integer.');
 
             return self::FAILURE;
         }
 
-        $disk = (string)$this->option('disk');
+        $disk = (string) $this->option('disk');
 
         if (($driver = $this->option('driver')) !== null) {
             config(['excel-importer.driver' => $driver]);
@@ -58,7 +58,7 @@ final class BenchmarkCommand extends Command
 
         config(['queue.default' => 'sync']);
 
-        $relative = 'excel-importer-benchmark/' . 'bench-' . $rows . '-' . bin2hex(random_bytes(4)) . '.xlsx';
+        $relative = 'excel-importer-benchmark/'.'bench-'.$rows.'-'.bin2hex(random_bytes(4)).'.xlsx';
         $absolute = Storage::disk($disk)->path($relative);
 
         $this->generateFixture($absolute, $rows);
@@ -89,7 +89,7 @@ final class BenchmarkCommand extends Command
         } catch (Throwable $e) {
             $this->error("Benchmark failed: {$e->getMessage()}");
 
-            if (!$this->option('keep')) {
+            if (! $this->option('keep')) {
                 @unlink($absolute);
             }
 
@@ -116,7 +116,7 @@ final class BenchmarkCommand extends Command
     private function generateFixture(string $path, int $rows): void
     {
         $directory = dirname($path);
-        if (!is_dir($directory) && !mkdir($directory, 0755, true) && !is_dir($directory)) {
+        if (! is_dir($directory) && ! mkdir($directory, 0755, true) && ! is_dir($directory)) {
             throw new RuntimeException("Cannot create directory [{$directory}].");
         }
 
@@ -141,7 +141,7 @@ final class BenchmarkCommand extends Command
     }
 
     /**
-     * @param array<string, float> $timings
+     * @param  array<string, float>  $timings
      */
     private function report(int $rows, array $timings, int $peakBytes, int $handled, ExcelFile $file): void
     {
@@ -180,9 +180,9 @@ final class BenchmarkCommand extends Command
                 ['Peak memory', $this->bytes($peakBytes)],
                 ['Rows persisted', number_format($rows)],
                 ['Rows to handler', number_format($handled)],
-                ['Reader driver', (string)config('excel-importer.driver')],
-                ['Chunk size', (string)config('excel-importer.chunk_size')],
-                ['Insert batch size', (string)config('excel-importer.insert_batch_size')],
+                ['Reader driver', (string) config('excel-importer.driver')],
+                ['Chunk size', (string) config('excel-importer.chunk_size')],
+                ['Insert batch size', (string) config('excel-importer.insert_batch_size')],
                 ['PHP', PHP_VERSION],
                 ['Queue', 'sync'],
             ],
@@ -191,7 +191,7 @@ final class BenchmarkCommand extends Command
 
     private function fmt(float $seconds): string
     {
-        return number_format($seconds, 3) . 's';
+        return number_format($seconds, 3).'s';
     }
 
     private function rate(int $count, float $seconds): string
@@ -200,13 +200,13 @@ final class BenchmarkCommand extends Command
             return '—';
         }
 
-        return number_format($count / $seconds, 0) . ' rows/s';
+        return number_format($count / $seconds, 0).' rows/s';
     }
 
     private function bytes(int $bytes): string
     {
         $units = ['B', 'KB', 'MB', 'GB'];
-        $value = (float)$bytes;
+        $value = (float) $bytes;
         $i = 0;
 
         while ($value >= 1024.0 && $i < count($units) - 1) {
@@ -214,7 +214,7 @@ final class BenchmarkCommand extends Command
             $i++;
         }
 
-        return number_format($value, 2) . ' ' . $units[$i];
+        return number_format($value, 2).' '.$units[$i];
     }
 }
 

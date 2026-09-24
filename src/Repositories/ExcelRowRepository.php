@@ -39,7 +39,7 @@ final class ExcelRowRepository
             ->chunk($chunkSize)
             ->each(function ($chunk) {
                 foreach ($chunk as $row) {
-                    if (!isset($row['id'])) {
+                    if (! isset($row['id'])) {
                         continue;
                     }
 
@@ -92,7 +92,6 @@ final class ExcelRowRepository
     {
         $this->markAs($rowId, ExcelRow::class, ExcelRowStatus::PENDING);
     }
-
 
     public function markAsValidated(int $rowId): void
     {

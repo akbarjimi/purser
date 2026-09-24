@@ -10,7 +10,7 @@ use OpenSpout\Writer\XLSX\Writer;
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    if (!class_exists(Writer::class)) {
+    if (! class_exists(Writer::class)) {
         $this->markTestSkipped('openspout/openspout not installed');
     }
 

@@ -6,7 +6,7 @@ use Akbarjimi\ExcelImporter\Services\LocalFileResolver;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Storage;
 
-afterEach(fn() => Mockery::close());
+afterEach(fn () => Mockery::close());
 
 it('returns the local disk path when the file already exists locally', function () {
     Storage::fake('local');
@@ -19,7 +19,7 @@ it('returns the local disk path when the file already exists locally', function 
 });
 
 it('streams a remote file to a temp path preserving extension and contents', function () {
-    $source = tempnam(sys_get_temp_dir(), 'src_') . '.xlsx';
+    $source = tempnam(sys_get_temp_dir(), 'src_').'.xlsx';
     file_put_contents($source, 'fake excel content');
 
     $stream = fopen($source, 'rb');
@@ -28,7 +28,7 @@ it('streams a remote file to a temp path preserving extension and contents', fun
     $disk->shouldReceive('path')
         ->once()
         ->with('remote/file.xlsx')
-        ->andReturn('/nonexistent/' . uniqid('', true) . '/file.xlsx');
+        ->andReturn('/nonexistent/'.uniqid('', true).'/file.xlsx');
     $disk->shouldReceive('readStream')
         ->once()
         ->with('remote/file.xlsx')

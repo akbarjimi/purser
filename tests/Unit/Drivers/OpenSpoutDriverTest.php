@@ -9,14 +9,14 @@ use Akbarjimi\ExcelImporter\DTOs\SheetInfo;
 use OpenSpout\Reader\XLSX\Reader;
 
 beforeEach(function () {
-    if (!class_exists(Reader::class)) {
+    if (! class_exists(Reader::class)) {
         $this->markTestSkipped('openspout/openspout not installed');
     }
 });
 
 function stubPath(string $name): string
 {
-    return dirname(__DIR__, 2) . '/stubs/' . $name;
+    return dirname(__DIR__, 2).'/stubs/'.$name;
 }
 
 it('lists every sheet in an xlsx file', function () {
@@ -38,7 +38,8 @@ it('lists every sheet in an xlsx file', function () {
 it('reads rows from a sheet and passes them to the handler', function () {
     $path = stubPath('2sheets2rows.xlsx');
 
-    $handler = new class implements RowHandler {
+    $handler = new class implements RowHandler
+    {
         /** @var list<RowData> */
         public array $rows = [];
 
@@ -61,23 +62,21 @@ it('reads rows from a sheet and passes them to the handler', function () {
 it('throws when the sheet index does not exist', function () {
     $path = stubPath('2sheets2rows.xlsx');
 
-    $handler = new class implements RowHandler {
-        public function handle(RowData $row): void
-        {
-        }
+    $handler = new class implements RowHandler
+    {
+        public function handle(RowData $row): void {}
     };
 
-    expect(fn() => (new OpenSpoutDriver)->readRows($path, 99, $handler))
+    expect(fn () => (new OpenSpoutDriver)->readRows($path, 99, $handler))
         ->toThrow(RuntimeException::class, 'Sheet index 99 not found');
 });
 
 it('throws when the file does not exist', function () {
-    $handler = new class implements RowHandler {
-        public function handle(RowData $row): void
-        {
-        }
+    $handler = new class implements RowHandler
+    {
+        public function handle(RowData $row): void {}
     };
 
-    expect(fn() => (new OpenSpoutDriver)->readRows('/nonexistent.xlsx', 0, $handler))
+    expect(fn () => (new OpenSpoutDriver)->readRows('/nonexistent.xlsx', 0, $handler))
         ->toThrow(InvalidArgumentException::class, 'File not found');
 });

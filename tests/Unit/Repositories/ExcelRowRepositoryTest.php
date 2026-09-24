@@ -128,13 +128,12 @@ describe('ExcelRowRepository', function () {
         }
     });
 
-
     it('throws on invalid row transition', function () {
         $row = ExcelRow::factory()->for($this->sheet)->create([
             'status' => ExcelRowStatus::PENDING,
         ]);
 
-        expect(fn() => $this->repo->markAsProcessed($row->id))
+        expect(fn () => $this->repo->markAsProcessed($row->id))
             ->toThrow(\RuntimeException::class, 'Invalid status transition from pending to processed');
     });
 });

@@ -49,8 +49,8 @@ it('keeps row errors when a later bulk update throws', function () {
 
     DB::statement(sprintf(
         'CREATE TRIGGER fail_poison_update BEFORE UPDATE ON excel_rows '
-        . 'WHEN NEW.id = %d '
-        . "BEGIN SELECT RAISE(ABORT, 'simulated bulk failure'); END",
+        .'WHEN NEW.id = %d '
+        ."BEGIN SELECT RAISE(ABORT, 'simulated bulk failure'); END",
         $poisonRow->id,
     ));
 

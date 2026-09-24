@@ -54,7 +54,7 @@ it('dispatches retry batch for failed chunks', function () {
 
     ExcelRowChunk::factory()
         ->count(3)
-        ->sequence(fn($sequence) => [
+        ->sequence(fn ($sequence) => [
             'from_row_id' => $sequence->index * 10,
             'to_row_id' => $sequence->index * 10 + 9,
         ])
@@ -63,5 +63,5 @@ it('dispatches retry batch for failed chunks', function () {
 
     $this->artisan('excel:retry', ['fileId' => $file->id])->assertSuccessful();
 
-    Bus::assertBatched(fn($batch) => $batch->jobs->count() === 3);
+    Bus::assertBatched(fn ($batch) => $batch->jobs->count() === 3);
 });

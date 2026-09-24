@@ -13,13 +13,12 @@ it('throws MissingDriverDependencyException from readRows when openspout is abse
         $this->markTestSkipped('openspout/openspout is installed; guard cannot be exercised.');
     }
 
-    $handler = new class implements RowHandler {
-        public function handle(RowData $row): void
-        {
-        }
+    $handler = new class implements RowHandler
+    {
+        public function handle(RowData $row): void {}
     };
 
-    expect(fn() => (new OpenSpoutDriver)->readRows('/tmp/x.xlsx', 0, $handler))
+    expect(fn () => (new OpenSpoutDriver)->readRows('/tmp/x.xlsx', 0, $handler))
         ->toThrow(MissingDriverDependencyException::class);
 });
 
@@ -28,6 +27,6 @@ it('throws MissingDriverDependencyException from listSheets when openspout is ab
         $this->markTestSkipped('openspout/openspout is installed; guard cannot be exercised.');
     }
 
-    expect(fn() => (new OpenSpoutDriver)->listSheets('/tmp/x.xlsx'))
+    expect(fn () => (new OpenSpoutDriver)->listSheets('/tmp/x.xlsx'))
         ->toThrow(MissingDriverDependencyException::class);
 });
