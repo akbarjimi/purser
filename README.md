@@ -1,4 +1,4 @@
-# Laravel Excel Importer
+# Purser
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/akbarjimi/purser.svg?style=flat-square)](https://packagist.org/packages/akbarjimi/purser)
 [![Tests](https://img.shields.io/github/actions/workflow/status/akbarjimi/excel-importer-pipeline/tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/akbarjimi/excel-importer-pipeline/actions)
